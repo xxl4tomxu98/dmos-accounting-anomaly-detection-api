@@ -1,0 +1,7 @@
+databaseChangeLog:
+- include:
+    file: db/initial/properties.yaml
+- include:
+    file: db/initial/ddl.yaml
+- include:
+    file: db/initial/dml.yaml

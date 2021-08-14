@@ -1,0 +1,28 @@
+databaseChangeLog:
+- changeSet:
+    id: 20210802-1244
+    author: mtilden
+    label: initial, 20210802-1244
+    preConditions:
+      onFail: MARK_RAN
+      not:
+        tableExists:
+          tableName: heroes
+    changes:
+      - createTable:
+          columns:
+            - column:
+                constraints:
+                  primaryKey: true
+                  primaryKeyName: pk_heroes
+                name: hero_id
+                remarks: Hero ID
+                type: SERIAL
+            - column:
+                constraints:
+                  nullable: false
+                name: hero_name
+                remarks: Hero Name
+                type: VARCHAR(255)
+          remarks: Table for Heroes
+          tableName: heroes

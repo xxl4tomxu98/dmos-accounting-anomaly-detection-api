@@ -1,0 +1,46 @@
+databaseChangeLog:
+- changeSet:
+    id: 20210802-1300
+    author: mtilden
+    preConditions:
+      - onFail: MARK_RAN
+      - sqlCheck:
+          expectedResult: 0
+          sql: select count(*) from heroes
+    changes:
+      - insert:
+          columns:
+            - column:
+                name: hero_id
+                value: 1
+            - column:
+                name: hero_name
+                value: Superman
+          tableName: heroes
+      - insert:
+          columns:
+            - column:
+                name: hero_id
+                value: 2
+            - column:
+                name: hero_name
+                value: Flash
+          tableName: heroes
+      - insert:
+          columns:
+            - column:
+                name: hero_id
+                value: 3
+            - column:
+                name: hero_name
+                value: Naruto
+          tableName: heroes
+      - insert:
+          columns:
+            - column:
+                name: hero_id
+                value: 4
+            - column:
+                name: hero_name
+                value: Thor
+          tableName: heroes

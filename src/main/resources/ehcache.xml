@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:noNamespaceSchemaLocation="ehcache.xsd"
+  Name="DmosCacheManager" >
+	<defaultCache maxEntriesLocalHeap="1000" 
+				  eternal="false" 
+				  timeToIdleSeconds="86400" 
+				  timeToLiveSeconds="86400" 
+				  memoryStoreEvictionPolicy="LRU">
+	</defaultCache>
+
+	<cache name="default-query-results-region"
+		   maxElementsInMemory="1000"
+		   eternal="false"
+		   timeToLiveSeconds="86400"
+		   timeToIdleSeconds="86400"
+		   memoryStoreEvictionPolicy="LRU"/>
+
+	<!-- Eternal on this cache is set to true, to effectively make it agnostic of the TTL setting of the 'default-query-results-region' cache. -->
+	<cache name="default-update-timestamps-region"
+		   maxElementsInMemory="100000"
+		   eternal="true"/>
+
+</ehcache>

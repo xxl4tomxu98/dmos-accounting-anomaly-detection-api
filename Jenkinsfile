@@ -6,10 +6,12 @@ pipeline {
         }
     }
     stages {
-        stage('Build') {
+        stage('Notify') {
             steps {
-                container('maven') {
-                    sh 'mvn -q -B install'
+                container('curl-jq') {
+                    sh '''
+                        curl -X POST -H 'Content-type: application/json' --data '{"text":"'"Job started: ${JOB_NAME}"'"}' ${SLACK_HOOK}
+                    '''
                 }
             }   
         }
@@ -49,13 +51,24 @@ pipeline {
                 }
             }   
         }
+        stage('Build') {
+            steps {
+                container('maven') {
+                    // sh '''#!bash 
+                    //     source `pwd`/gitversion
+                    //      mvn -q versions:set -DnewVersion=${FULL_SEM_VER}
+                    // '''
+                    sh 'mvn -q -B install'
+                }
+            }   
+        }
         stage('Package') {
             when { not { changeRequest() } }
             steps {
                 container('kaniko') {
                     sh '''
                         source `pwd`/gitversion
-                        /kaniko/executor -f `pwd`/docker/backend/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true --destination=docker.ftc-llc.net/dmos/backend-template:${FULL_SEM_VER}
+                        /kaniko/executor -f `pwd`/docker/backend/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true --destination=docker.ftc-llc.net/dmos/elite-api:${FULL_SEM_VER}
                     '''
                 }
            }    
@@ -69,9 +82,9 @@ pipeline {
                         cd /env-test
                         git clone https://github.com/FTCLLC/pipeline-env-test.git .
                         cd bases
-                        kustomize edit set image docker.ftc-llc.net/dmos/backend-template=docker.ftc-llc.net/dmos/backend-template:${FULL_SEM_VER}
+                        kustomize edit set image docker.ftc-llc.net/dmos/elite-api=docker.ftc-llc.net/dmos/elite-api:${FULL_SEM_VER}
                         git add kustomization.yaml
-                        git commit -m "bump: update backend-template to ${FULL_SEM_VER}"
+                        git commit -m "bump: update elite-api to ${FULL_SEM_VER}"
                         git push
                     '''
                 }
@@ -88,6 +101,7 @@ pipeline {
         //    }    
         // }
         stage('Scan') {
+            when { branch 'main' }
             steps {
                 container('maven') {
                     sh 'mvn -q -B -s `pwd`/settings.xml sonar:sonar -Dsonar.login=${SONAR_LOGIN}'
@@ -101,7 +115,7 @@ pipeline {
                     // The set +x prevent commands being echoed revealing the access token
                     sh '''
                         set +x
-                        [ $(curl -s -u ${SONAR_LOGIN}: https://sonarqube.ftc-llc.net/api/qualitygates/project_status?projectKey=blog.ftc-llc.net | jq -r ".projectStatus.status") == "OK" ] || exit 1
+                        [ $(curl -s -u ${SONAR_LOGIN}: https://sonarqube.ftc-llc.net/api/qualitygates/project_status?projectKey=com.ftcllc:dmos-elite-api | jq -r ".projectStatus.status") == "OK" ] || exit 1
                         set -x
                     '''
                 }
@@ -116,13 +130,27 @@ pipeline {
                         cd /env-prod
                         git clone https://github.com/FTCLLC/pipeline-env-prod.git .
                         cd bases
-                        kustomize edit set image docker.ftc-llc.net/dmos/backend-template=docker.ftc-llc.net/dmos/backend-template:${FULL_SEM_VER}
+                        kustomize edit set image docker.ftc-llc.net/dmos/elite-api=docker.ftc-llc.net/dmos/elite-api:${FULL_SEM_VER}
                         git add kustomization.yaml
-                        git commit -m "bump: update backend-template to ${FULL_SEM_VER}"
+                        git commit -m "bump: update elite-api to ${FULL_SEM_VER}"
                         git push
                     '''
                 }
            }    
         }
+    }
+    post {
+       // only triggered when blue or green sign
+       success {
+            sh '''
+                curl -X POST -H 'Content-type: application/json' --data '{"text":"'"Job SUCCESS: ${JOB_NAME}"'"}' ${SLACK_HOOK}
+            '''
+       }
+       // triggered when red sign
+       failure {
+            sh '''
+                curl -X POST -H 'Content-type: application/json' --data '{"text":"'"Job FAILED: ${JOB_NAME}"'"}' ${SLACK_HOOK}
+            '''
+       }
     }
 }

@@ -5,14 +5,23 @@ spec:
   imagePullSecrets:
   - name: regcred
   containers:
+    - name: jnlp
+      env:
+        - name: SLACK_HOOK
+          valueFrom:
+            secretKeyRef:
+              name: slack-hook
+              key: slack-hook
     - name: maven
       image: maven:3.8.1-jdk-11
       env:
         - name: SONAR_HOST_URL
           value: "https://sonarqube.ftc-llc.net"
-        # TODO: remove this, but it can be revoked so minor issue.
         - name: SONAR_LOGIN
-          value: "265af615d77f3c7e8ee736a930bbadb47f8b4716"
+          valueFrom:
+            secretKeyRef:
+              name: sonarqube-token
+              key: token
       command:
       - sleep
       args:
@@ -27,25 +36,19 @@ spec:
       volumeMounts:
         - name: jenkins-docker-cfg
           mountPath: /kaniko/.docker
-    - name: sonarqube
-      image: sonarsource/sonar-scanner-cli
-      imagePullPolicy: IfNotPresent
-      env:
-        - name: SONAR_HOST_URL
-          value: "https://sonarqube.ftc-llc.net"
-        # TODO: remove this, but it can be revoked so minor issue.
-        - name: SONAR_LOGIN
-          value: "265af615d77f3c7e8ee736a930bbadb47f8b4716"
-      command:
-        - sleep
-      args:
-        - 99d
     - name: curl-jq
       image: badouralix/curl-jq:alpine
       env:
-        # TODO: remove this, but it can be revoked so minor issue.
         - name: SONAR_LOGIN
-          value: "265af615d77f3c7e8ee736a930bbadb47f8b4716"
+          valueFrom:
+            secretKeyRef:
+              name: sonarqube-token
+              key: token
+        - name: SLACK_HOOK
+          valueFrom:
+            secretKeyRef:
+              name: slack-hook
+              key: slack-hook
       command:
         - sleep
       args:

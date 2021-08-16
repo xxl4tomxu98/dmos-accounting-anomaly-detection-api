@@ -10,6 +10,7 @@ import lombok.ToString;
 import org.springframework.beans.BeanUtils;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.LocalDate;
 
 @Getter
@@ -25,8 +26,8 @@ public class AccountEntryDTO
     // ^^ todo do i want bigDecimal
     private String status;
     // ^^ todo I don't like this... i want status to be an enum
-    private Long orderId;
-    private Long groupId;
+    private BigInteger orderId;
+    private BigInteger groupId;
     @JsonFormat(pattern="dd/MM/yyyy")
     private LocalDate createDate;
 

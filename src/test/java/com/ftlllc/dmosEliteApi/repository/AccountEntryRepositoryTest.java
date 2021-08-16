@@ -35,40 +35,4 @@ public class AccountEntryRepositoryTest extends DmosEliteApiApplicationTests
         assertNotNull(results.get(1).getCreateDate());
     }
 
-    @Test
-    public void getAllAccountEntriesBetweenNullDates(){
-        results = aer.getAllBetweenDates(null, null);
-        assertEquals(0, results.size());
-    }
-
-    @Test
-    public void getAllAccountEntriesBetweenDates()
-    {
-        results = aer.getAllBetweenDates(startDate, endDate);
-        assertEquals(79, results.size());
-    }
-
-    @Test
-    public void getAllAccountEntriesMissingStartDate()
-    {
-        results = aer.getAllBetweenDates(null, endDate);
-        assertEquals(0, results.size());
-    }
-
-    @Test
-    public void getAllAccountEntriesMissingEndDate()
-    {
-        results = aer.getAllBetweenDates(startDate, null);
-        assertEquals(0, results.size());
-    }
-
-//    @Test
-//    public void getAccountEntryFrequency()
-//    {
-//
-//        Dictionary<LocalDate, Integer> frequencyResults = aer.getFrequencyCountBetweenDates(startDate, endDate);
-//        assertEquals(79, frequencyResults.size());
-//
-//    }
-
 }

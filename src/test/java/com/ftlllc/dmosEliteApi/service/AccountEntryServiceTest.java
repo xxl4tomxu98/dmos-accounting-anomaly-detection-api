@@ -20,7 +20,7 @@ public class AccountEntryServiceTest extends DmosEliteApiApplicationTests
     private AccountEntryService accountEntryService;
 
     @Test
-    public void getAllAccountEntries() throws IllegalAccessException {
+    public void getAllAccountEntries() {
         Page<AccountEntryDTO> results = accountEntryService.getAllAccountEntries(null, null, 1, 100, "createDate", Sort.Direction.ASC);
         assertEquals(198, results.getTotalElements());
         assertEquals(2, results.getTotalPages());

@@ -10,14 +10,15 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface AccountEntryRepository extends JpaRepository<AccountEntry, Integer>, JpaSpecificationExecutor<AccountEntry>
 {
-    Optional<AccountEntry> findOneByAccountEntryId(Integer accountEntryId);
 
     @Query(value = "from AccountEntry a where a.createDate BETWEEN :startDate AND :endDate")
     List<AccountEntry> getAllBetweenDates(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+
+//    @Query(value = "select DISTINCT ON , count(a.accountEntryId) from AccountEntry a where a.createDate BETWEEN :startDate AND :endDate GROUP BY a.createDate")
+//    Dictionary<LocalDate, Integer> getFrequencyCountBetweenDates(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
 }

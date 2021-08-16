@@ -8,8 +8,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class AccountEntryServiceTest extends DmosEliteApiApplicationTests
 {
@@ -18,10 +20,17 @@ public class AccountEntryServiceTest extends DmosEliteApiApplicationTests
     private AccountEntryService accountEntryService;
 
     @Test
-    public void getAllAccountEntries() {
+    public void getAllAccountEntries() throws IllegalAccessException {
         Page<AccountEntryDTO> results = accountEntryService.getAllAccountEntries(null, null, 1, 100, "createDate", Sort.Direction.ASC);
         assertEquals(198, results.getTotalElements());
         assertEquals(2, results.getTotalPages());
+        List<AccountEntryDTO> resultList = results.getContent();
+        assertNotNull(resultList.get(1).getAccountEntryId());
+        assertNotNull(resultList.get(1).getAmount());
+        assertNotNull(resultList.get(1).getStatus());
+        assertNotNull(resultList.get(1).getOrderId());
+        assertNotNull(resultList.get(1).getGroupId());
+        assertNotNull(resultList.get(1).getCreateDate());
     }
 
     @Test

@@ -1,28 +1,87 @@
 databaseChangeLog:
 - changeSet:
-    id: 20210802-1244
+    id: 20210815-0500
     author: mtilden
-    label: initial, 20210802-1244
+    label: initial, 20210815-0500
     preConditions:
       onFail: MARK_RAN
       not:
         tableExists:
-          tableName: heroes
+          tableName: account_entry
     changes:
       - createTable:
           columns:
             - column:
                 constraints:
                   primaryKey: true
-                  primaryKeyName: pk_heroes
-                name: hero_id
-                remarks: Hero ID
+                  primaryKeyName: pk_account_entry
+                name: id
+                remarks: Account Entry PK ID
                 type: SERIAL
             - column:
+                name: amount
+                remarks: Amount of Money
+                type: DECIMAL(30,2)
+            - column:
+                name: status
+                remarks: Status
+                type: VARCHAR(100)
+            - column:
+                name: order_id
+                remarks: Order
+                type: NUMERIC
+            - column:
+                name: group_id
+                remarks: Group
+                type: NUMERIC
+            - column:
+                name: create_date
+                remarks: Date Field
+                type: DATE
+          remarks: Table for account entries
+          tableName: account_entry
+- changeSet:
+    id: 20210815-0501
+    author: mtilden
+    label: initial, 20210815-0501
+    preConditions:
+      onFail: MARK_RAN
+      not:
+        tableExists:
+          tableName: rental_booth
+    changes:
+      - createTable:
+          columns:
+            - column:
                 constraints:
-                  nullable: false
-                name: hero_name
-                remarks: Hero Name
+                  primaryKey: true
+                  primaryKeyName: pk_rental_booth
+                name: id
+                remarks: Rental Booth PK ID
+                type: SERIAL
+            - column:
+                name: rental
+                remarks: Booth Rented Name
                 type: VARCHAR(255)
-          remarks: Table for Heroes
-          tableName: heroes
+            - column:
+                name: fee
+                remarks: Amount of Money
+                type: DECIMAL(10,2)
+            - column:
+                name: paid
+                remarks: Is Rental Booth Paid
+                type: BOOL
+            - column:
+                name: order_id
+                remarks: Order
+                type: NUMERIC
+            - column:
+                name: group_id
+                remarks: Group
+                type: NUMERIC
+            - column:
+                name: create_date
+                remarks: Date Field
+                type: DATE
+          remarks: Table for account entries
+          tableName: rental_booth

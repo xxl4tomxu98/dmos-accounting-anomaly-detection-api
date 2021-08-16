@@ -1,46 +1,79 @@
 databaseChangeLog:
 - changeSet:
-    id: 20210802-1300
+    id: 20210815-1738
     author: mtilden
     preConditions:
       - onFail: MARK_RAN
       - sqlCheck:
           expectedResult: 0
-          sql: select count(*) from heroes
+          sql: select count(*) from account_entry
     changes:
-      - insert:
+      - loadData:
           columns:
             - column:
-                name: hero_id
-                value: 1
+                header: amount
+                name: amount
+                type: NUMERIC
             - column:
-                name: hero_name
-                value: Superman
-          tableName: heroes
-      - insert:
+                header: status
+                name: status
+                type: STRING
+            - column:
+                header: order
+                name: order_id
+                type: NUMERIC
+            - column:
+                header: group
+                name: group_id
+                type: NUMERIC
+            - column:
+                header: date
+                name: create_date
+                type: DATE
+          encoding: UTF-8
+          file: ../initial/data/ACCOUNTINGENTRY_1.csv
+          relativeToChangelogFile: true
+          separator: ','
+          tableName: account_entry
+          usePreparedStatements: true
+- changeSet:
+    id: 20210815-1739
+    author: mtilden
+    preConditions:
+      - onFail: MARK_RAN
+      - sqlCheck:
+          expectedResult: 0
+          sql: select count(*) from rental_booth
+    changes:
+      - loadData:
           columns:
             - column:
-                name: hero_id
-                value: 2
+                header: rented
+                name: rental
+                type: STRING
             - column:
-                name: hero_name
-                value: Flash
-          tableName: heroes
-      - insert:
-          columns:
+                header: fee
+                name: fee
+                type: NUMERIC
             - column:
-                name: hero_id
-                value: 3
+                header: paid
+                name: paid
+                type: STRING
             - column:
-                name: hero_name
-                value: Naruto
-          tableName: heroes
-      - insert:
-          columns:
+                header: order
+                name: order_id
+                type: NUMERIC
             - column:
-                name: hero_id
-                value: 4
+                header: group
+                name: group_id
+                type: NUMERIC
             - column:
-                name: hero_name
-                value: Thor
-          tableName: heroes
+                header: date
+                name: create_date
+                type: DATE
+          encoding: UTF-8
+          file: ../initial/data/RENTALBOOTH_1.csv
+          relativeToChangelogFile: true
+          separator: ','
+          tableName: rental_booth
+          usePreparedStatements: true

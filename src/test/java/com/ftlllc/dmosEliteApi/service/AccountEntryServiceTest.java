@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class AccountEntryServiceTest extends DmosEliteApiApplicationTests
 {
@@ -20,6 +21,12 @@ public class AccountEntryServiceTest extends DmosEliteApiApplicationTests
     public void getAllAccountEntries() throws IllegalAccessException {
         List<AccountEntryDTO> results = accountEntryService.getAllAccountEntries(null, null);
         assertEquals(198, results.size());
+        assertNotNull(results.get(1).getAccountEntryId());
+        assertNotNull(results.get(1).getAmount());
+        assertNotNull(results.get(1).getStatus());
+        assertNotNull(results.get(1).getOrderId());
+        assertNotNull(results.get(1).getGroupId());
+        assertNotNull(results.get(1).getCreateDate());
     }
 
     @Test

@@ -28,7 +28,7 @@ public class AccountEntryDTO
     // ^^ todo I don't like this... i want status to be an enum
     private BigInteger orderId;
     private BigInteger groupId;
-    @JsonFormat(pattern="dd/MM/yyyy")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate createDate;
 
     public AccountEntryDTO(AccountEntry accountEntry)

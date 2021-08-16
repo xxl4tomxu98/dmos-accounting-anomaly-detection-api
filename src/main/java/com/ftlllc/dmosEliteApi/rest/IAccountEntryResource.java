@@ -1,6 +1,5 @@
 package com.ftlllc.dmosEliteApi.rest;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ftlllc.dmosEliteApi.dto.AccountEntryDTO;
 import io.swagger.annotations.ApiParam;
 import org.springframework.data.domain.Page;
@@ -42,12 +41,16 @@ public interface IAccountEntryResource
 
 
     @GetMapping("/frequency")
-    Map<LocalDate, Integer> getTotalAccountEntriesByDate(
-        @RequestParam(required = false)
-        @JsonFormat(pattern="dd/MM/yyyy")
-        LocalDate startDate,
-        @RequestParam(required = false)
-        @JsonFormat(pattern="dd/MM/yyyy")
-        LocalDate endDate
+    Page<Map<LocalDate, Long>> getTotalAccountEntriesByDate(
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate startDate,
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate endDate,
+            @RequestParam(required = false, defaultValue = "1")
+            Integer pageNumber,
+            @RequestParam(required = false, defaultValue = "25")
+            Integer pageSize
     ) throws IllegalAccessException;
 }

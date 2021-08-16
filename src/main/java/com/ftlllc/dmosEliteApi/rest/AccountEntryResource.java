@@ -1,6 +1,5 @@
 package com.ftlllc.dmosEliteApi.rest;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ftlllc.dmosEliteApi.dto.AccountEntryDTO;
 import com.ftlllc.dmosEliteApi.service.AccountEntryService;
 import io.swagger.annotations.ApiParam;
@@ -14,7 +13,6 @@ import javax.inject.Inject;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -51,16 +49,20 @@ public class AccountEntryResource implements IAccountEntryResource
     }
 
     @Override
-    public Map<LocalDate, Integer> getTotalAccountEntriesByDate(
+    public Page<Map<LocalDate, Long>> getTotalAccountEntriesByDate(
                     @RequestParam(required = false)
-                    @JsonFormat(pattern="dd/MM/yyyy")
+                    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
                     LocalDate startDate,
                     @RequestParam(required = false)
-                    @JsonFormat(pattern="dd/MM/yyyy")
-                    LocalDate endDate
+                    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                    LocalDate endDate,
+                    @RequestParam(required = false, defaultValue = "1")
+                    Integer pageNumber,
+                    @RequestParam(required = false, defaultValue = "25")
+                    Integer pageSize
     )
     {
-        return new HashMap<>();
+        return accountEntryService.getTotalAccountEntriesByDate(startDate, endDate, pageNumber, pageSize);
     }
 
 }

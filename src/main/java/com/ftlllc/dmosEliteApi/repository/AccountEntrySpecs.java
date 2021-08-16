@@ -2,7 +2,6 @@ package com.ftlllc.dmosEliteApi.repository;
 
 import com.ftlllc.dmosEliteApi.domain.AccountEntry;
 import com.ftlllc.dmosEliteApi.domain.AccountEntry_;
-import lombok.SneakyThrows;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -15,7 +14,6 @@ public class AccountEntrySpecs {
 
     public static Specification<AccountEntry> findAllByCreateDateBetween(LocalDate startDate, LocalDate endDate) {
         return new Specification<AccountEntry>() {
-            @SneakyThrows
             @Override
             public Predicate toPredicate(Root<AccountEntry> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 if(startDate == null && endDate == null)

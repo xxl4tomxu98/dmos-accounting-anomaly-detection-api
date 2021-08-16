@@ -5,6 +5,10 @@ import com.ftlllc.dmosEliteApi.dto.AccountEntryDTO;
 import com.ftlllc.dmosEliteApi.repository.AccountEntryRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -20,14 +24,17 @@ public class AccountEntryService
     private AccountEntryRepository accountEntryRepository;
 
 
-    public List<AccountEntryDTO> getAllAccountEntries(LocalDate startDate, LocalDate endDate) throws IllegalAccessException {
-        return getAllAccountEntriesFromDb(startDate, endDate).stream().map(AccountEntryDTO::new).collect(Collectors.toList());
+    public Page<AccountEntryDTO> getAllAccountEntries(
+        LocalDate startDate, LocalDate endDate, Integer pageNumber, Integer pageSize, String sortBy, String sortOrder
+    ) throws IllegalAccessException {
+        return getAllAccountEntriesFromDb(startDate, endDate, pageNumber, pageSize, sortBy, sortOrder);
     }
 
     //  Helpers
 
-    private List<AccountEntry> getAllAccountEntriesFromDb(LocalDate startDate, LocalDate endDate) throws IllegalAccessException {
+    private Page<AccountEntryDTO> getAllAccountEntriesFromDb(LocalDate startDate, LocalDate endDate, Integer pageNumber, Integer pageSize, String sortBy, String sortOrder) throws IllegalAccessException {
         List<AccountEntry> accountEntries;
+        Specification<AccountEntry> predicates = null;
         if(startDate == null && endDate == null)
         {
             accountEntries = accountEntryRepository.findAll();
@@ -40,7 +47,11 @@ public class AccountEntryService
             accountEntries = accountEntryRepository.getAllBetweenDates(startDate, endDate);//.orElse(null);
         }
 
-        return accountEntries;
+        return accountEntryRepository
+                .findAll(predicates,
+                        PageRequest.of(pageNumber, pageSize,
+                                Sort.by(sortBy)))
+                .map(AccountEntryDTO::new);
     }
 
 //    private void updateAccountEntry(AccountEntry accountEntry, AccountEntryDTO accountEntryDTO) {

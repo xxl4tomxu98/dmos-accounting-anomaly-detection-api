@@ -2,6 +2,7 @@ package com.ftlllc.dmosEliteApi.repository;
 
 import com.ftlllc.dmosEliteApi.domain.AccountEntry;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface AccountEntryRepository extends JpaRepository<AccountEntry, Integer>, PagingAndSortingRepository<AccountEntry, Integer>
+public interface AccountEntryRepository extends JpaRepository<AccountEntry, Integer>, JpaSpecificationExecutor<AccountEntry>
 {
     Optional<AccountEntry> findOneByAccountEntryId(Integer accountEntryId);
 

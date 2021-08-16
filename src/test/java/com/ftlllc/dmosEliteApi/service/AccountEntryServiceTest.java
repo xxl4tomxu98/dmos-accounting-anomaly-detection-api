@@ -4,9 +4,9 @@ import com.ftlllc.dmosEliteApi.DmosEliteApiApplicationTests;
 import com.ftlllc.dmosEliteApi.dto.AccountEntryDTO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -18,8 +18,8 @@ public class AccountEntryServiceTest extends DmosEliteApiApplicationTests
 
     @Test
     public void getAllAccountEntries() throws IllegalAccessException {
-        List<AccountEntryDTO> results = accountEntryService.getAllAccountEntries(null, null);
-        assertEquals(198, results.size());
+        Page<AccountEntryDTO> results = accountEntryService.getAllAccountEntries(null, null, 1, 25, "", "ASC");
+        assertEquals(198, results.getNumberOfElements());
     }
 
     @Test
@@ -28,21 +28,21 @@ public class AccountEntryServiceTest extends DmosEliteApiApplicationTests
         LocalDate startDate = LocalDate.ofYearDay(2021, 1);
         // aug 1, 2021
         LocalDate endDate = LocalDate.ofYearDay(2021, 213);
-        List<AccountEntryDTO> results = accountEntryService.getAllAccountEntries(startDate, endDate);
-        assertEquals(79, results.size());
+        Page<AccountEntryDTO> results = accountEntryService.getAllAccountEntries(startDate, endDate, 1, 25, "", "ASC");
+        assertEquals(79, results.getNumberOfElements());
     }
 
     @Test(expected = IllegalAccessException.class)
     public void getAllAccountEntriesMissingStartDate() throws IllegalAccessException
     {
         LocalDate endDate = LocalDate.ofYearDay(2021, 213);
-        accountEntryService.getAllAccountEntries(null, endDate);
+        accountEntryService.getAllAccountEntries(null, endDate, 1, 25, "", "ASC");
     }
 
     @Test(expected = IllegalAccessException.class)
     public void getAllAccountEntriesMissingEndDate() throws IllegalAccessException
     {
         LocalDate startDate = LocalDate.ofYearDay(2021, 1);
-        accountEntryService.getAllAccountEntries(startDate, null);
+        accountEntryService.getAllAccountEntries(startDate, null, 1, 25, "", "ASC");
     }
 }

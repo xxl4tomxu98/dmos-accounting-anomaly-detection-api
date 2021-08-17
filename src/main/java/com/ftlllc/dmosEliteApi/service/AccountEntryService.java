@@ -2,14 +2,21 @@ package com.ftlllc.dmosEliteApi.service;
 
 import com.ftlllc.dmosEliteApi.domain.AccountEntry;
 import com.ftlllc.dmosEliteApi.dto.AccountEntryDTO;
+import com.ftlllc.dmosEliteApi.repository.AccountEntryCustomRepository;
 import com.ftlllc.dmosEliteApi.repository.AccountEntryRepository;
+import com.ftlllc.dmosEliteApi.repository.AccountEntrySpecs;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.Query;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -19,31 +26,38 @@ public class AccountEntryService
     @Autowired
     private AccountEntryRepository accountEntryRepository;
 
+    @Autowired
+    private AccountEntryCustomRepository accountEntryCustomRepository;
 
-    public List<AccountEntryDTO> getAllAccountEntries(LocalDate startDate, LocalDate endDate) throws IllegalAccessException {
-        return getAllAccountEntriesFromDb(startDate, endDate).stream().map(AccountEntryDTO::new).collect(Collectors.toList());
+    public Page<AccountEntryDTO> getAllAccountEntries(
+        LocalDate startDate, LocalDate endDate, Integer pageNumber, Integer pageSize, String sortBy, Sort.Direction sortOrder
+    ) {
+        Specification<AccountEntry> predicates = Specification.where(AccountEntrySpecs.findAllByCreateDateBetween(startDate, endDate));
+
+        return accountEntryRepository
+                .findAll(predicates,
+                        PageRequest.of(pageNumber, pageSize,
+                                Sort.by(sortOrder, sortBy)))
+                .map(AccountEntryDTO::new);
     }
 
-    //  Helpers
+    public List<Map<LocalDate, Long>> getTotalAccountEntriesByDate(
+            LocalDate startDate, LocalDate endDate
+    ) {
+        Query q = accountEntryCustomRepository.getFrequencyCountBetweenDates(startDate, endDate);
 
-    private List<AccountEntry> getAllAccountEntriesFromDb(LocalDate startDate, LocalDate endDate) throws IllegalAccessException {
-        List<AccountEntry> accountEntries;
-        if(startDate == null && endDate == null)
-        {
-            accountEntries = accountEntryRepository.findAll();
-        }
-        else
-        {
-            if(startDate == null || endDate == null)
-            { throw new IllegalAccessException("Either startDate or endDate is null. Please provide both."); }
-            // not throwing an error cause its just a null result set if nothing comes back
-            accountEntries = accountEntryRepository.getAllBetweenDates(startDate, endDate);//.orElse(null);
+        List<Object[]> queryResult = q.getResultList();
+
+        // convert result into a list of hashmaps
+        List<Map<LocalDate, Long>> resultList = new ArrayList<>();
+        for (Object[] record : queryResult) {
+            LocalDate key = (LocalDate) record[0];
+            Long value = (Long) record[1];
+            Map<LocalDate, Long> newRecord = new HashMap<>();
+            newRecord.put(key, value);
+            resultList.add(newRecord);
         }
 
-        return accountEntries;
+        return resultList;
     }
-
-//    private void updateAccountEntry(AccountEntry accountEntry, AccountEntryDTO accountEntryDTO) {
-//        BeanUtils.copyProperties(accountEntryDTO, accountEntry);
-//    }
 }

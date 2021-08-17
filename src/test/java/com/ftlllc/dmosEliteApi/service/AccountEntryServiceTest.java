@@ -4,6 +4,8 @@ import com.ftlllc.dmosEliteApi.DmosEliteApiApplicationTests;
 import com.ftlllc.dmosEliteApi.dto.AccountEntryDTO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -18,38 +20,49 @@ public class AccountEntryServiceTest extends DmosEliteApiApplicationTests
     private AccountEntryService accountEntryService;
 
     @Test
-    public void getAllAccountEntries() throws IllegalAccessException {
-        List<AccountEntryDTO> results = accountEntryService.getAllAccountEntries(null, null);
-        assertEquals(198, results.size());
-        assertNotNull(results.get(1).getAccountEntryId());
-        assertNotNull(results.get(1).getAmount());
-        assertNotNull(results.get(1).getStatus());
-        assertNotNull(results.get(1).getOrderId());
-        assertNotNull(results.get(1).getGroupId());
-        assertNotNull(results.get(1).getCreateDate());
+    public void getAllAccountEntries() {
+        Page<AccountEntryDTO> results = accountEntryService.getAllAccountEntries(null, null, 1, 100, "createDate", Sort.Direction.ASC);
+        assertEquals(198, results.getTotalElements());
+        assertEquals(2, results.getTotalPages());
+        List<AccountEntryDTO> resultList = results.getContent();
+        assertNotNull(resultList.get(1).getAccountEntryId());
+        assertNotNull(resultList.get(1).getAmount());
+        assertNotNull(resultList.get(1).getStatus());
+        assertNotNull(resultList.get(1).getOrderId());
+        assertNotNull(resultList.get(1).getGroupId());
+        assertNotNull(resultList.get(1).getCreateDate());
     }
 
     @Test
-    public void getAllAccountEntriesBetweenDates() throws IllegalAccessException
-    {
+    public void getAllAccountEntriesBetweenDates() {
         LocalDate startDate = LocalDate.ofYearDay(2021, 1);
         // aug 1, 2021
         LocalDate endDate = LocalDate.ofYearDay(2021, 213);
-        List<AccountEntryDTO> results = accountEntryService.getAllAccountEntries(startDate, endDate);
-        assertEquals(79, results.size());
+        Page<AccountEntryDTO> results = accountEntryService.getAllAccountEntries(startDate, endDate, 1, 200, "createDate", Sort.Direction.ASC);
+        assertEquals(79, results.getTotalElements());
+        assertEquals(1, results.getTotalPages());
     }
 
-    @Test(expected = IllegalAccessException.class)
-    public void getAllAccountEntriesMissingStartDate() throws IllegalAccessException
-    {
+    @Test
+    public void getAllAccountEntriesMissingStartDate() {
         LocalDate endDate = LocalDate.ofYearDay(2021, 213);
-        accountEntryService.getAllAccountEntries(null, endDate);
+        Page<AccountEntryDTO> results = accountEntryService.getAllAccountEntries(null, endDate, 1, 25, "createDate", Sort.Direction.ASC);
+        assertEquals(79, results.getTotalElements());
+        assertEquals(4, results.getTotalPages());
     }
 
-    @Test(expected = IllegalAccessException.class)
-    public void getAllAccountEntriesMissingEndDate() throws IllegalAccessException
-    {
+    @Test
+    public void getAllAccountEntriesMissingEndDate() {
         LocalDate startDate = LocalDate.ofYearDay(2021, 1);
-        accountEntryService.getAllAccountEntries(startDate, null);
+        Page<AccountEntryDTO> results = accountEntryService.getAllAccountEntries(startDate, null, 1, 150, "createDate", Sort.Direction.ASC);
+        assertEquals(198, results.getTotalElements());
+        assertEquals(2, results.getTotalPages());
+    }
+
+    @Test
+    public void getAllAccountEntriesOutOfBoundsPageNumber() {
+        LocalDate startDate = LocalDate.ofYearDay(2021, 1);
+        Page<AccountEntryDTO> results = accountEntryService.getAllAccountEntries(startDate, null, 5, 150, "createDate", Sort.Direction.ASC);
+        assertEquals(0, results.getNumberOfElements());
     }
 }

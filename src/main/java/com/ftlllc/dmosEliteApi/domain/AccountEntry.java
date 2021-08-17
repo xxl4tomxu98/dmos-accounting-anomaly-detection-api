@@ -41,4 +41,7 @@ public class AccountEntry
     @Column(name = "create_date")
     private LocalDate createDate;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="rentalBoothId")
+    private RentalBooth rentalBooth;
 }

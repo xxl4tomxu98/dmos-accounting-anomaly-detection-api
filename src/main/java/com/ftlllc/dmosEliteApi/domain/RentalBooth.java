@@ -9,6 +9,9 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
+import java.util.List;
+
+import static javax.persistence.CascadeType.ALL;
 
 @Getter
 @Setter
@@ -44,5 +47,7 @@ public class RentalBooth
     @Column(name = "create_date")
     private LocalDate createDate;
 
+    @OneToMany(mappedBy="rentalBooth")
+    private List<AccountEntry> accountEntries;
 }
 

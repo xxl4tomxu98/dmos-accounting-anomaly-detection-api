@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -59,4 +60,9 @@ public class RentalBoothResource implements IRentalBoothResource
         return rentalBoothService.getTotalRentalBoothsByDate(startDate, endDate);
     }
 
+    @Override
+    public List<Map<String, Object>> getFeedPaidAmountsReport()
+    {
+        return rentalBoothService.getFeedPaidAmountsReport();
+    }
 }

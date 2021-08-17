@@ -14,7 +14,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.Query;
+import java.math.BigInteger;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +61,24 @@ public class RentalBoothService
         }
 
         return resultMap;
+    }
+
+    public List<Map<String, Object>> getFeedPaidAmountsReport() {
+        Query q = rentalBoothCustomRepository.getFeePaidAmounts();
+
+        List<Object[]> queryResult = q.getResultList();
+        List<Map<String, Object>> result = new ArrayList<>();
+
+        for (Object[] record : queryResult) {
+            Map<String, Object> resultMap = new HashMap<>();
+            resultMap.put("orderId", record[0]);
+            resultMap.put("fee", record[1]);
+            resultMap.put("totalAmount", record[2]);
+            resultMap.put("diff", record[3]);
+            result.add(resultMap);
+        }
+
+        return result;
     }
 
 }

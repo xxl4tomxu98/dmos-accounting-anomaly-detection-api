@@ -1,0 +1,35 @@
+databaseChangeLog:
+- changeSet:
+    id: 20210817-0930
+    author: pcrilley
+    label: initial, 20210817-0930
+    preConditions:
+      onFail: MARK_RAN
+      tableExists:
+        tableName: account_entry
+      not:
+        indexExists:
+          indexName: index_account_entry_date
+    changes:
+      - createIndex:
+          column:
+            - name: create_date
+          indexName: index_account_entry_date
+          tableName: account_entry
+- changeSet:
+    id: 20210817-0941
+    author: pcrilley
+    label: initial, 20210817-0941
+    preConditions:
+      onFail: MARK_RAN
+      tableExists:
+        tableName: rental_booth
+      not:
+        indexExists:
+          indexName: index_rental_booth_date
+    changes:
+      - createIndex:
+          column:
+            - name: create_date
+          indexName: index_rental_booth_date
+          tableName: rental_booth

@@ -41,16 +41,12 @@ public class AccountEntryService
                 .map(AccountEntryDTO::new);
     }
 
-    public Page<Map<LocalDate, Long>> getTotalAccountEntriesByDate(
-            LocalDate startDate, LocalDate endDate, Integer pageNumber, Integer pageSize
+    public List<Map<LocalDate, Long>> getTotalAccountEntriesByDate(
+            LocalDate startDate, LocalDate endDate
     ) {
-        Integer totalCount = 0;
         Query q = accountEntryCustomRepository.getFrequencyCountBetweenDates(startDate, endDate);
 
         List<Object[]> queryResult = q.getResultList();
-        if (queryResult != null && !queryResult.isEmpty()) {
-            totalCount = queryResult.size();
-        }
 
         // convert result into a list of hashmaps
         List<Map<LocalDate, Long>> resultList = new ArrayList<>();
@@ -62,10 +58,6 @@ public class AccountEntryService
             resultList.add(newRecord);
         }
 
-        return new PageImpl<>(
-                resultList,
-                PageRequest.of(pageNumber, pageSize),
-                totalCount
-        );
+        return resultList;
     }
 }

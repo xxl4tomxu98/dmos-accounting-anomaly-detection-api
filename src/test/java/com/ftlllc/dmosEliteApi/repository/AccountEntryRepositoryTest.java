@@ -2,18 +2,12 @@ package com.ftlllc.dmosEliteApi.repository;
 
 import com.ftlllc.dmosEliteApi.DmosEliteApiApplicationTests;
 import com.ftlllc.dmosEliteApi.domain.AccountEntry;
-import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.persistence.Query;
-import javax.persistence.Tuple;
 import java.time.LocalDate;
-import java.util.Dictionary;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

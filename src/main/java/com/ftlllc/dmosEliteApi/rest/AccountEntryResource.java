@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -49,20 +50,16 @@ public class AccountEntryResource implements IAccountEntryResource
     }
 
     @Override
-    public Page<Map<LocalDate, Long>> getTotalAccountEntriesByDate(
+    public List<Map<LocalDate, Long>> getTotalAccountEntriesByDate(
                     @RequestParam(required = false)
                     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
                     LocalDate startDate,
                     @RequestParam(required = false)
                     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-                    LocalDate endDate,
-                    @RequestParam(required = false, defaultValue = "1")
-                    Integer pageNumber,
-                    @RequestParam(required = false, defaultValue = "25")
-                    Integer pageSize
+                    LocalDate endDate
     )
     {
-        return accountEntryService.getTotalAccountEntriesByDate(startDate, endDate, pageNumber, pageSize);
+        return accountEntryService.getTotalAccountEntriesByDate(startDate, endDate);
     }
 
 }

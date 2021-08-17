@@ -13,6 +13,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 
 
 @RunWith(SpringRunner.class)
@@ -28,6 +29,9 @@ public class DmosEliteApiApplicationTests {
 
     protected TransactionTemplate transactionTemplate;
 
+    protected LocalDate startDate = startDate = LocalDate.ofYearDay(2021, 1);
+    // aug 1, 2021
+    protected LocalDate endDate = LocalDate.ofYearDay(2021, 213);
 
     @Before
     public void setupDmosBackendTemplateApplicationTests(){

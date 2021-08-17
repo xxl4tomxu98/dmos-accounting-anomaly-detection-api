@@ -21,7 +21,7 @@ import java.time.LocalDate;
 public class RentalBoothDTO
 {
 
-    private Integer id;
+    private Integer rentalBoothId;
     private String rental;
     private BigDecimal fee;
     // ^^ todo do i want bigDecimal

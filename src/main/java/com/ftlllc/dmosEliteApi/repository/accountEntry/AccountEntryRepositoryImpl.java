@@ -1,4 +1,4 @@
-package com.ftlllc.dmosEliteApi.repository;
+package com.ftlllc.dmosEliteApi.repository.accountEntry;
 
 import com.ftlllc.dmosEliteApi.domain.AccountEntry;
 import com.ftlllc.dmosEliteApi.domain.AccountEntry_;

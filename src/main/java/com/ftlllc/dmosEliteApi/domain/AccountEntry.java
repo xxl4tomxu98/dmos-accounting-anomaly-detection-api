@@ -27,7 +27,6 @@ public class AccountEntry
 
     @Column(name = "amount")
     private BigDecimal amount;
-    // ^^ todo do i want bigDecimal
 
     @Column(name = "status")
     private String status;

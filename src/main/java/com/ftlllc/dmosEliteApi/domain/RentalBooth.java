@@ -42,7 +42,7 @@ public class RentalBooth
     private BigInteger groupId;
 
     @Column(name = "create_date")
-    private LocalDate crate_date;
+    private LocalDate createDate;
 
 }
 

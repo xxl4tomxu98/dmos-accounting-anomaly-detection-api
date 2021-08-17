@@ -1,10 +1,10 @@
 package com.ftlllc.dmosEliteApi.service;
 
-import com.ftlllc.dmosEliteApi.domain.AccountEntry;
-import com.ftlllc.dmosEliteApi.dto.AccountEntryDTO;
-import com.ftlllc.dmosEliteApi.repository.accountEntry.AccountEntryCustomRepository;
-import com.ftlllc.dmosEliteApi.repository.accountEntry.AccountEntryRepository;
-import com.ftlllc.dmosEliteApi.repository.accountEntry.AccountEntrySpecs;
+import com.ftlllc.dmosEliteApi.domain.RentalBooth;
+import com.ftlllc.dmosEliteApi.dto.RentalBoothDTO;
+import com.ftlllc.dmosEliteApi.repository.rentalBooth.RentalBoothCustomRepository;
+import com.ftlllc.dmosEliteApi.repository.rentalBooth.RentalBoothRepository;
+import com.ftlllc.dmosEliteApi.repository.rentalBooth.RentalBoothSpecs;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,35 +15,38 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.Query;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j
-public class AccountEntryService
+public class RentalBoothService
 {
+
     // TODO: Add error checking, fix exception throwing.
     @Autowired
-    private AccountEntryRepository accountEntryRepository;
+    private RentalBoothRepository rentalBoothRepository;
 
     @Autowired
-    private AccountEntryCustomRepository accountEntryCustomRepository;
+    private RentalBoothCustomRepository rentalBoothCustomRepository;
 
-    public Page<AccountEntryDTO> getAllAccountEntries(
-        LocalDate startDate, LocalDate endDate, Integer pageNumber, Integer pageSize, String sortBy, Sort.Direction sortOrder
+    public Page<RentalBoothDTO> getAllRentalBooths(
+            LocalDate startDate, LocalDate endDate, Integer pageNumber, Integer pageSize, String sortBy, Sort.Direction sortOrder
     ) {
-        Specification<AccountEntry> predicates = Specification.where(AccountEntrySpecs.findAllByCreateDateBetween(startDate, endDate));
+        Specification<RentalBooth> predicates = Specification.where(RentalBoothSpecs.findAllByCreateDateBetween(startDate, endDate));
 
-        return accountEntryRepository
+        return rentalBoothRepository
                 .findAll(predicates,
                         PageRequest.of(pageNumber, pageSize,
                                 Sort.by(sortOrder, sortBy)))
-                .map(AccountEntryDTO::new);
+                .map(RentalBoothDTO::new);
     }
 
-    public Map<LocalDate, Long> getTotalAccountEntriesByDate(
+    public Map<LocalDate, Long> getTotalRentalBoothsByDate(
             LocalDate startDate, LocalDate endDate
     ) {
-        Query q = accountEntryCustomRepository.getFrequencyCountBetweenDates(startDate, endDate);
+        Query q = rentalBoothCustomRepository.getFrequencyCountBetweenDates(startDate, endDate);
 
         List<Object[]> queryResult = q.getResultList();
 
@@ -57,4 +60,5 @@ public class AccountEntryService
 
         return resultMap;
     }
+
 }

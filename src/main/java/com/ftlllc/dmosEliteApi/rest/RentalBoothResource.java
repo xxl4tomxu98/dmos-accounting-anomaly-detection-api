@@ -1,30 +1,28 @@
 package com.ftlllc.dmosEliteApi.rest;
 
-import com.ftlllc.dmosEliteApi.dto.AccountEntryDTO;
-import com.ftlllc.dmosEliteApi.service.AccountEntryService;
+import com.ftlllc.dmosEliteApi.dto.RentalBoothDTO;
+import com.ftlllc.dmosEliteApi.service.RentalBoothService;
 import io.swagger.annotations.ApiParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.inject.Inject;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.time.LocalDate;
 import java.util.Map;
 
 @RestController
-public class AccountEntryResource implements IAccountEntryResource
+public class RentalBoothResource implements IRentalBoothResource
 {
-
-    @Inject
-    private AccountEntryService accountEntryService;
+    @Autowired
+    private RentalBoothService rentalBoothService;
 
     @Override
-    //@RolesAllowed("dmos_read")
-    public Page<AccountEntryDTO> getAllAccountEntries(
+    public Page<RentalBoothDTO> getAllRentalBooths(
                     @RequestParam(value="startDate", required = false)
                     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
                     LocalDate startDate,
@@ -45,11 +43,12 @@ public class AccountEntryResource implements IAccountEntryResource
                     @RequestParam(value="sortOrder", required = false, defaultValue = "ASC")
                     Sort.Direction sortOrder)
     {
-        return accountEntryService.getAllAccountEntries(startDate, endDate, pageNumber, pageSize, sortBy, sortOrder);
+        return rentalBoothService.getAllRentalBooths(startDate, endDate, pageNumber, pageSize, sortBy, sortOrder);
     }
 
+
     @Override
-    public Map<LocalDate, Long> getTotalAccountEntriesByDate(
+    public Map<LocalDate, Long> getTotalRentalBoothCountsByDate(
                     @RequestParam(required = false)
                     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
                     LocalDate startDate,
@@ -57,7 +56,7 @@ public class AccountEntryResource implements IAccountEntryResource
                     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
                     LocalDate endDate)
     {
-        return accountEntryService.getTotalAccountEntriesByDate(startDate, endDate);
+        return rentalBoothService.getTotalRentalBoothsByDate(startDate, endDate);
     }
 
 }

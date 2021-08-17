@@ -2,6 +2,8 @@ package com.ftlllc.dmosEliteApi.repository;
 
 import com.ftlllc.dmosEliteApi.DmosEliteApiApplicationTests;
 import com.ftlllc.dmosEliteApi.domain.AccountEntry;
+import com.ftlllc.dmosEliteApi.repository.accountEntry.AccountEntryCustomRepository;
+import com.ftlllc.dmosEliteApi.repository.accountEntry.AccountEntryRepository;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

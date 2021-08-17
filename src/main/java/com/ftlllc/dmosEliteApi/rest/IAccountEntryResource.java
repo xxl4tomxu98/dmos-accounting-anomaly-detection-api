@@ -3,6 +3,7 @@ package com.ftlllc.dmosEliteApi.rest;
 import com.ftlllc.dmosEliteApi.dto.AccountEntryDTO;
 import io.swagger.annotations.ApiParam;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Map;
 
 @RequestMapping("/api/accountEntries")
@@ -37,8 +37,8 @@ public interface IAccountEntryResource
         @RequestParam(value="sortBy", required = false, defaultValue = "createDate")
         String sortBy,
         @RequestParam(value="sortOrder", required = false, defaultValue = "ASC")
-        String sortOrder
-    ) throws IllegalAccessException;
+        Sort.Direction sortOrder
+    );
 
 
     @GetMapping("/frequency")
@@ -49,5 +49,5 @@ public interface IAccountEntryResource
             @RequestParam(required = false)
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
             LocalDate endDate
-    ) throws IllegalAccessException;
+    );
 }

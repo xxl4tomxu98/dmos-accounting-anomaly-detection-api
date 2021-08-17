@@ -1,0 +1,32 @@
+databaseChangeLog:
+- changeSet:
+    id: 20210817-1430
+    author: pcrilley
+    label: initial, 20210817-1430
+    preConditions:
+      onFail: MARK_RAN
+      not:
+        columnExists:
+          tableName: account_entry
+          columnName: rental_booth_id
+    changes:
+      - addColumn:
+          tableName: account_entry
+          columns:
+            - column:
+                name: rental_booth_id
+                type: INT
+      - addUniqueConstraint:
+          columnNames: rental_booth_id
+          constraintName: unique_rental_booth_id
+          tableName: account_entry
+      - sql:
+          sql: "UPDATE account_entry SET rental_booth_id = rental_booth.id FROM rental_booth where account_entry.order_id = rental_booth.order_id"
+      - addForeignKeyConstraint:
+          baseColumnNames: rental_booth_id
+          baseTableName: account_entry
+          constraintName: fk_rental_account
+          onDelete: RESTRICT
+          onUpdate: RESTRICT
+          referencedColumnNames: id
+          referencedTableName: rental_booth

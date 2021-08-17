@@ -40,6 +40,11 @@ databaseChangeLog:
                 type: DATE
           remarks: Table for account entries
           tableName: account_entry
+      - createIndex:
+          column:
+            - name: create_date
+          indexName: index_account_entry_date
+          tableName: account_entry
 - changeSet:
     id: 20210815-0501
     author: mtilden
@@ -84,4 +89,9 @@ databaseChangeLog:
                 remarks: Date Field
                 type: DATE
           remarks: Table for account entries
+          tableName: rental_booth
+      - createIndex:
+          column:
+            - name: create_date
+          indexName: index_rental_booth_date
           tableName: rental_booth

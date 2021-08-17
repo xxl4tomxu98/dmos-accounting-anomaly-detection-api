@@ -43,21 +43,21 @@ public class RentalBoothServiceTest extends DmosEliteApiApplicationTests
     }
 
     @Test
-    public void getAllAccountEntriesMissingStartDate() {
+    public void getAllRentalBoothsMissingStartDate() {
         results = rentalBoothService.getAllRentalBooths(null, endDate, 1, 25, "createDate", Sort.Direction.ASC);
         assertEquals(199, results.getTotalElements());
         assertEquals(8, results.getTotalPages());
     }
 
     @Test
-    public void getAllAccountEntriesMissingEndDate() {
+    public void getAllRentalBoothsMissingEndDate() {
         results = rentalBoothService.getAllRentalBooths(startDate, null, 1, 150, "createDate", Sort.Direction.ASC);
         assertEquals(199, results.getTotalElements());
         assertEquals(2, results.getTotalPages());
     }
 
     @Test
-    public void getAllAccountEntriesOutOfBoundsPageNumber() {
+    public void getAllRentalBoothsOutOfBoundsPageNumber() {
         results = rentalBoothService.getAllRentalBooths(startDate, null, 5, 150, "createDate", Sort.Direction.ASC);
         assertEquals(0, results.getNumberOfElements());
     }

@@ -50,7 +50,7 @@ public class AccountEntryResource implements IAccountEntryResource
     }
 
     @Override
-    public List<Map<LocalDate, Long>> getTotalAccountEntriesByDate(
+    public Map<LocalDate, Long> getTotalAccountEntriesByDate(
                     @RequestParam(required = false)
                     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
                     LocalDate startDate,

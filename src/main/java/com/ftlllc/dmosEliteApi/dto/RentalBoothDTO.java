@@ -35,8 +35,8 @@ public class RentalBoothDTO
         BeanUtils.copyProperties(rentalBooth, this);
         // if we do this in here it creates a circular dependency it seems like
         // gotta figure that out
-//        this.accountEntryList = rentalBooth.getAccountEntries() != null ?
-//                rentalBooth.getAccountEntries().stream().map(AccountEntryDTO::new).collect(Collectors.toList())
-//                : null;
+        // this.accountEntryList = rentalBooth.getAccountEntries() != null ?
+        //          rentalBooth.getAccountEntries().stream().map(AccountEntryDTO::new).collect(Collectors.toList())
+        //          : null;
     }
 }

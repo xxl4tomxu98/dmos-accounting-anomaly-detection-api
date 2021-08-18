@@ -33,6 +33,8 @@ public class AccountEntryServiceTest extends DmosEliteApiApplicationTests
         assertNotNull(resultList.get(1).getOrderId());
         assertNotNull(resultList.get(1).getGroupId());
         assertNotNull(resultList.get(1).getCreateDate());
+        assertNotNull(resultList.get(1).getRentalBoothDTO());
+        assertNotNull(resultList.get(1).getRentalBoothDTO().getRentalBoothId());
     }
 
     @Test

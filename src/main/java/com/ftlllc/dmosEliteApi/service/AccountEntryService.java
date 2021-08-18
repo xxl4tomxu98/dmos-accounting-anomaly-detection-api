@@ -33,11 +33,12 @@ public class AccountEntryService
     ) {
         Specification<AccountEntry> predicates = Specification.where(AccountEntrySpecs.findAllByCreateDateBetween(startDate, endDate));
 
-        return accountEntryRepository
+        Page<AccountEntry> temp = accountEntryRepository
                 .findAll(predicates,
                         PageRequest.of(pageNumber, pageSize,
-                                Sort.by(sortOrder, sortBy)))
-                .map(AccountEntryDTO::new);
+                                Sort.by(sortOrder, sortBy)));
+
+        return temp.map(AccountEntryDTO::new);
     }
 
     public Map<LocalDate, Long> getTotalAccountEntriesByDate(

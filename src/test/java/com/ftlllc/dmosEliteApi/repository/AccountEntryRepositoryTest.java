@@ -38,6 +38,7 @@ public class AccountEntryRepositoryTest extends DmosEliteApiApplicationTests
         assertNotNull(results.get(1).getOrderId());
         assertNotNull(results.get(1).getGroupId());
         assertNotNull(results.get(1).getCreateDate());
+        assertNotNull(results.get(1).getRentalBooth().getRentalBoothId());
     }
 
     @Test

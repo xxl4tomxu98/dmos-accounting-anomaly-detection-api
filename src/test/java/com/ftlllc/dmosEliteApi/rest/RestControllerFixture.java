@@ -45,7 +45,8 @@ public class RestControllerFixture
     protected final String ACCOUNT_FREQUENCY_URL = ACCOUNT_ENTRIES_URL + "/frequency";
     protected final String RENTAL_BOOTH_URL = BASE_URL + "/rentalBooth";
     protected final String RENTAL_BOOTH_FREQUENCY_URL = RENTAL_BOOTH_URL + "/frequency";
-    protected final String RENTAL_BOOTH_FEE_PAID_URL = RENTAL_BOOTH_URL + "/feePaidAmounts";
+    protected final String REPORTS_URL = BASE_URL + "/reports";
+    protected final String FEE_V_PAID_AMOUNTS = REPORTS_URL + "/FEE_V_PAID_AMOUNTS";
 
     @Before
     public void setupFixture()

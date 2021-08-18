@@ -2,6 +2,7 @@ package com.ftlllc.dmosEliteApi.service;
 
 import com.ftlllc.dmosEliteApi.domain.RentalBooth;
 import com.ftlllc.dmosEliteApi.dto.RentalBoothDTO;
+import com.ftlllc.dmosEliteApi.dto.payload.FeesPaidReportPayloadDTO;
 import com.ftlllc.dmosEliteApi.repository.rentalBooth.RentalBoothCustomRepository;
 import com.ftlllc.dmosEliteApi.repository.rentalBooth.RentalBoothRepository;
 import com.ftlllc.dmosEliteApi.repository.rentalBooth.RentalBoothSpecs;
@@ -14,6 +15,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.Query;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -63,19 +65,15 @@ public class RentalBoothService
         return resultMap;
     }
 
-    public List<Map<String, Object>> getFeedPaidAmountsReport() {
+    public List<FeesPaidReportPayloadDTO> getFeedPaidAmountsReport() {
         Query q = rentalBoothCustomRepository.getFeePaidAmounts();
 
         List<Object[]> queryResult = q.getResultList();
-        List<Map<String, Object>> result = new ArrayList<>();
+        List<FeesPaidReportPayloadDTO> result = new ArrayList<>();
 
         for (Object[] record : queryResult) {
-            Map<String, Object> resultMap = new HashMap<>();
-            resultMap.put("orderId", record[0]);
-            resultMap.put("fee", record[1]);
-            resultMap.put("totalAmount", record[2]);
-            resultMap.put("diff", record[3]);
-            result.add(resultMap);
+            FeesPaidReportPayloadDTO resultDTO = new FeesPaidReportPayloadDTO((BigInteger) record[0], (BigDecimal) record[1], (BigDecimal) record[2], (BigDecimal) record[3]);
+            result.add(resultDTO);
         }
 
         return result;

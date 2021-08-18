@@ -12,12 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Map;
 
 @RequestMapping("/api/rentalBooth")
-public interface IRentalBoothResource
-{
+public interface IRentalBoothResource {
 
     @GetMapping
     Page<RentalBoothDTO> getAllRentalBooths(
@@ -52,7 +50,4 @@ public interface IRentalBoothResource
                     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
                     LocalDate endDate
     );
-
-    @GetMapping("/feePaidAmounts")
-    List<Map<String, Object>> getFeedPaidAmountsReport();
 }

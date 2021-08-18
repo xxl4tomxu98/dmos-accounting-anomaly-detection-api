@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -44,5 +45,7 @@ public class RentalBooth
     @Column(name = "create_date")
     private LocalDate createDate;
 
+    @OneToMany(mappedBy="rentalBooth")
+    private List<AccountEntry> accountEntries;
 }
 

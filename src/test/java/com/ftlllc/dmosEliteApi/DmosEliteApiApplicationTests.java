@@ -29,9 +29,9 @@ public class DmosEliteApiApplicationTests {
 
     protected TransactionTemplate transactionTemplate;
 
-    protected LocalDate startDate = startDate = LocalDate.ofYearDay(2021, 1);
+    protected final LocalDate startDate = LocalDate.ofYearDay(2021, 1);
     // aug 1, 2021
-    protected LocalDate endDate = LocalDate.ofYearDay(2021, 213);
+    protected final LocalDate endDate = LocalDate.ofYearDay(2021, 213);
 
     @Before
     public void setupDmosBackendTemplateApplicationTests(){

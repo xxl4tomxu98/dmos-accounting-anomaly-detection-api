@@ -2,6 +2,7 @@ package com.ftlllc.dmosEliteApi.service;
 
 import com.ftlllc.dmosEliteApi.DmosEliteApiApplicationTests;
 import com.ftlllc.dmosEliteApi.dto.RentalBoothDTO;
+import com.ftlllc.dmosEliteApi.dto.payload.FeesPaidReportPayloadDTO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -60,5 +61,11 @@ public class RentalBoothServiceTest extends DmosEliteApiApplicationTests
     public void getAllRentalBoothsOutOfBoundsPageNumber() {
         results = rentalBoothService.getAllRentalBooths(startDate, null, 5, 150, "createDate", Sort.Direction.ASC);
         assertEquals(0, results.getNumberOfElements());
+    }
+
+    @Test
+    public void getFeedPaidAmountsReport() {
+        List<FeesPaidReportPayloadDTO> response = rentalBoothService.getFeedPaidAmountsReport();
+        assertEquals(18, response.size());
     }
 }

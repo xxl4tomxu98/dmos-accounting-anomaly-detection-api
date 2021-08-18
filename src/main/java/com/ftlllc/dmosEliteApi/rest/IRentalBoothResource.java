@@ -15,8 +15,7 @@ import java.time.LocalDate;
 import java.util.Map;
 
 @RequestMapping("/api/rentalBooth")
-public interface IRentalBoothResource
-{
+public interface IRentalBoothResource {
 
     @GetMapping
     Page<RentalBoothDTO> getAllRentalBooths(
@@ -51,5 +50,4 @@ public interface IRentalBoothResource
                     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
                     LocalDate endDate
     );
-
 }

@@ -8,3 +8,5 @@ databaseChangeLog:
     file: db/initial/dml.yaml
 - include:
     file: db/initial/date_indexes.yaml
+- include:
+    file: db/initial/foreign_key.yaml

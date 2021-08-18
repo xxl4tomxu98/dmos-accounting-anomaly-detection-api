@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 @RestController
-public class RentalBoothResource implements IRentalBoothResource
-{
+public class RentalBoothResource implements IRentalBoothResource {
     @Autowired
     private RentalBoothService rentalBoothService;
 
@@ -41,8 +41,7 @@ public class RentalBoothResource implements IRentalBoothResource
                     @RequestParam(value="sortBy", required = false, defaultValue = "createDate")
                     String sortBy,
                     @RequestParam(value="sortOrder", required = false, defaultValue = "ASC")
-                    Sort.Direction sortOrder)
-    {
+                    Sort.Direction sortOrder) {
         return rentalBoothService.getAllRentalBooths(startDate, endDate, pageNumber, pageSize, sortBy, sortOrder);
     }
 
@@ -54,9 +53,7 @@ public class RentalBoothResource implements IRentalBoothResource
                     LocalDate startDate,
                     @RequestParam(required = false)
                     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-                    LocalDate endDate)
-    {
+                    LocalDate endDate) {
         return rentalBoothService.getTotalRentalBoothsByDate(startDate, endDate);
     }
-
 }

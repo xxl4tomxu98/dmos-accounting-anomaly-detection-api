@@ -9,4 +9,6 @@ import java.time.LocalDate;
 public interface RentalBoothCustomRepository
 {
     Query getFrequencyCountBetweenDates(LocalDate startDate, LocalDate endDate);
+
+    Query getFeePaidAmounts();
 }

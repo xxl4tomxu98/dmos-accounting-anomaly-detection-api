@@ -1,32 +1,38 @@
 databaseChangeLog:
-- changeSet:
-    id: 20210817-1430
-    author: pcrilley
-    label: initial, 20210817-1430
-    preConditions:
-      onFail: MARK_RAN
-      not:
-        columnExists:
-          tableName: account_entry
-          columnName: rental_booth_id
-    changes:
-      - addColumn:
-          tableName: account_entry
-          columns:
-            - column:
-                name: rental_booth_id
-                type: INT
-      - addUniqueConstraint:
-          columnNames: rental_booth_id
-          constraintName: unique_rental_booth_id
-          tableName: account_entry
-      - sql:
-          sql: "UPDATE account_entry SET rental_booth_id = rental_booth.id FROM rental_booth where account_entry.order_id = rental_booth.order_id"
-      - addForeignKeyConstraint:
-          baseColumnNames: rental_booth_id
-          baseTableName: account_entry
-          constraintName: fk_rental_account
-          onDelete: RESTRICT
-          onUpdate: RESTRICT
-          referencedColumnNames: id
-          referencedTableName: rental_booth
+  - changeSet:
+      id: 20210817-1430
+      author: pcrilley
+      label: account_entry_fk, 20210817-1430
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          columnExists:
+            tableName: account_entry
+            columnName: rental_booth_id
+      changes:
+        - addColumn:
+            tableName: account_entry
+            columns:
+              - column:
+                  name: rental_booth_id
+                  type: SERIAL
+        - addForeignKeyConstraint:
+            baseColumnNames: rental_booth_id
+            baseTableName: account_entry
+            constraintName: fk_rental_account
+            onDelete: RESTRICT
+            onUpdate: RESTRICT
+            referencedColumnNames: id
+            referencedTableName: rental_booth
+  - changeSet:
+      id: 20210817-1431
+      author: pcrilley
+      label: account_entry_fk, 20210817-1431
+      preConditions:
+        onFail: MARK_RAN
+        sqlCheck:
+          expectedResult: 0
+          sql: "select count(*) from account_entry where rental_booth_id IS NOT NULL"
+      changes:
+        - sql:
+            sql: update account_entry set rental_booth_id = rental_booth.id from rental_booth where account_entry.order_id = rental_booth.order_id

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -47,13 +46,14 @@ public class RentalBoothResource implements IRentalBoothResource {
 
 
     @Override
-    public Map<LocalDate, Long> getTotalRentalBoothCountsByDate(
+    public Map<String, Long> getTotalRentalBoothCountsByDate(
                     @RequestParam(required = false)
                     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
                     LocalDate startDate,
                     @RequestParam(required = false)
                     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-                    LocalDate endDate) {
-        return rentalBoothService.getTotalRentalBoothsByDate(startDate, endDate);
+                    LocalDate endDate
+                    ) {
+        return rentalBoothService.getTotalRentalBoothFrequencyByMonth(startDate, endDate);
     }
 }

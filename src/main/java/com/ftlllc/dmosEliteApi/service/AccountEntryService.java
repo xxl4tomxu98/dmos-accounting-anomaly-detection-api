@@ -41,7 +41,7 @@ public class AccountEntryService
         return temp.map(AccountEntryDTO::new);
     }
 
-    public Map<LocalDate, Long> getTotalAccountEntriesByDate(
+    public Map<String, Long> getTotalAccountEntriesByDate(
             LocalDate startDate, LocalDate endDate
     ) {
         Query q = accountEntryCustomRepository.getFrequencyCountBetweenDates(startDate, endDate);
@@ -49,11 +49,11 @@ public class AccountEntryService
         List<Object[]> queryResult = q.getResultList();
 
         // convert result into a list of hashmaps
-        Map<LocalDate, Long> resultMap = new HashMap<>();
+        Map<String, Long> resultMap = new HashMap<>();
         for (Object[] record : queryResult) {
-            LocalDate key = (LocalDate) record[0];
-            Long value = (Long) record[1];
-            resultMap.put(key, value);
+            String date = record[0] + "-" + record[1];
+            Long value = (Long) record[2];
+            resultMap.put(date, value);
         }
 
         return resultMap;

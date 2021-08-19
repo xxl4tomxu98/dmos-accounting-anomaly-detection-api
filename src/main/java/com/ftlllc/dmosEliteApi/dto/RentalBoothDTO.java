@@ -1,6 +1,8 @@
 package com.ftlllc.dmosEliteApi.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ftlllc.dmosEliteApi.domain.AnomalyMap;
 import com.ftlllc.dmosEliteApi.domain.RentalBooth;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
@@ -23,12 +25,16 @@ public class RentalBoothDTO
     private Integer rentalBoothId;
     private String rental;
     private BigDecimal fee;
-    private String paid;
-    private BigInteger orderId;
+    private Boolean paid;
+    private Integer orderId;
     private BigInteger groupId;
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate createDate;
+    private BigDecimal anomalyScore;
+    @JsonIgnore
     private List<AccountEntryDTO> accountEntryList;
+    @JsonIgnore
+    private AnomalyMap anomalyMap;
 
     public RentalBoothDTO(RentalBooth rentalBooth)
     {

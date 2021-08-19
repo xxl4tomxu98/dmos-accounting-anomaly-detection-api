@@ -1,6 +1,7 @@
 package com.ftlllc.dmosEliteApi.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ftlllc.dmosEliteApi.domain.AccountEntry;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
@@ -23,10 +24,11 @@ public class AccountEntryDTO
     private BigDecimal amount;
     private String status;
     // ^^ todo I don't like this... i want status to be an enum
-    private BigInteger orderId;
+    private Integer orderId;
     private BigInteger groupId;
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate createDate;
+    @JsonIgnore
     private RentalBoothDTO rentalBoothDTO;
     public AccountEntryDTO(AccountEntry accountEntry)
     {

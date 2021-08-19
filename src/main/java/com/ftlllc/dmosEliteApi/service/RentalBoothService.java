@@ -2,6 +2,7 @@ package com.ftlllc.dmosEliteApi.service;
 
 import com.ftlllc.dmosEliteApi.domain.RentalBooth;
 import com.ftlllc.dmosEliteApi.dto.RentalBoothDTO;
+import com.ftlllc.dmosEliteApi.dto.payload.AnomalyScoreMonthlyPayloadDTO;
 import com.ftlllc.dmosEliteApi.dto.payload.FeesPaidReportPayloadDTO;
 import com.ftlllc.dmosEliteApi.repository.rentalBooth.RentalBoothCustomRepository;
 import com.ftlllc.dmosEliteApi.repository.rentalBooth.RentalBoothRepository;
@@ -47,7 +48,7 @@ public class RentalBoothService
                 .map(RentalBoothDTO::new);
     }
 
-    public Map<LocalDate, Long> getTotalRentalBoothsByDate(
+    public Map<String, Long> getTotalRentalBoothFrequencyByMonth(
             LocalDate startDate, LocalDate endDate
     ) {
         Query q = rentalBoothCustomRepository.getFrequencyCountBetweenDates(startDate, endDate);
@@ -55,11 +56,11 @@ public class RentalBoothService
         List<Object[]> queryResult = q.getResultList();
 
         // convert result into a list of hashmaps
-        Map<LocalDate, Long> resultMap = new HashMap<>();
+        Map<String, Long> resultMap = new HashMap<>();
         for (Object[] record : queryResult) {
-            LocalDate key = (LocalDate) record[0];
-            Long value = (Long) record[1];
-            resultMap.put(key, value);
+            String date = record[0] + "-" + record[1];
+            Long value = (Long) record[2];
+            resultMap.put(date, value);
         }
 
         return resultMap;
@@ -79,4 +80,17 @@ public class RentalBoothService
         return result;
     }
 
+    public List<AnomalyScoreMonthlyPayloadDTO> getAnomalyScoreMonthlyReport(BigDecimal anomalyScoreMin) {
+        Query q = rentalBoothCustomRepository.getAnomalyScoreMonthly(anomalyScoreMin);
+
+        List<Object[]> queryResult = q.getResultList();
+        List<AnomalyScoreMonthlyPayloadDTO> result = new ArrayList<>();
+
+        for (Object[] objects : queryResult) {
+            String date = objects[0] + "-" + objects[1];
+            result.add(new AnomalyScoreMonthlyPayloadDTO(date, (Long) objects[2]));
+        }
+
+        return result;
+    }
 }

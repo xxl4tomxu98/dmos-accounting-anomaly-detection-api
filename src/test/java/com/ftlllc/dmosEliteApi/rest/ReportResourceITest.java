@@ -10,8 +10,8 @@ public class ReportResourceITest extends RestControllerFixture
     @Test
     public void reportApiCheck()
     {
-        assertStatus(get(FEE_V_PAID_AMOUNTS), status().isOk());
-        assertStatus(get(FEE_V_PAID_AMOUNTS), status().isOk());
+        assertStatus(get(ANOMALY_MONTHLY_COUNTS), status().isOk());
+        assertStatus(get(ANOMALY_MONTHLY_COUNTS), status().isOk());
     }
 
 }

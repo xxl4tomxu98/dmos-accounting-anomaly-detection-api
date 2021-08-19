@@ -1,16 +1,13 @@
 package com.ftlllc.dmosEliteApi.repository.rentalBooth;
 
-import com.ftlllc.dmosEliteApi.domain.AccountEntry;
-import com.ftlllc.dmosEliteApi.domain.AccountEntry_;
-import com.ftlllc.dmosEliteApi.domain.RentalBooth;
-import com.ftlllc.dmosEliteApi.domain.RentalBooth_;
+import com.ftlllc.dmosEliteApi.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.criteria.*;
-import java.math.BigInteger;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class RentalBoothRepositoryImpl implements RentalBoothCustomRepository
@@ -28,14 +25,18 @@ public class RentalBoothRepositoryImpl implements RentalBoothCustomRepository
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<?> cq = cb.createQuery();
         Root<RentalBooth> root = cq.from(RentalBooth.class);
-        Expression<?> createDateSelection = root.get(RentalBooth_.createDate);
+        Expression<?> createDateMonthSelection = cb.function(
+                "month", Integer.class, root.get(RentalBooth_.createDate));
+        Expression<?> createDateYearSelection = cb.function(
+                "year", Integer.class, root.get(RentalBooth_.createDate));
         Expression<?> rentalBoothIdSelection = root.get(RentalBooth_.rentalBoothId);
 
         // handles aggregation
         cq.multiselect(
-                createDateSelection,
-                cb.count(rentalBoothIdSelection).alias("dateCount")
-        ).groupBy(createDateSelection);
+                createDateMonthSelection,
+                createDateYearSelection,
+                cb.count(rentalBoothIdSelection)
+        ).groupBy(createDateMonthSelection, createDateYearSelection);
 
         // uses existing spec to generate where conditions
         Specification<RentalBooth> predicates = Specification.where(RentalBoothSpecs.findAllByCreateDateBetween(startDate, endDate));
@@ -63,4 +64,32 @@ public class RentalBoothRepositoryImpl implements RentalBoothCustomRepository
         return em.createQuery(cq);
     }
 
+    public Query getAnomalyScoreMonthly(BigDecimal anomalyScoreMin) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<?> cq = cb.createQuery();
+        Root<RentalBooth> root = cq.from(RentalBooth.class);
+        Expression<?> createDateMonthSelection = cb.function(
+                "month", Integer.class, root.get(RentalBooth_.createDate));
+        Expression<?> createDateYearSelection = cb.function(
+                "year", Integer.class, root.get(RentalBooth_.createDate));
+        Expression<?> rentalBoothIdSelection = root.get(RentalBooth_.rentalBoothId);
+
+        Join<RentalBooth, AnomalyMap> itemJoin = root.join(RentalBooth_.anomalyMap);
+
+        cq.where(
+                cb.greaterThanOrEqualTo(
+                        itemJoin.get(AnomalyMap_.score),
+                        cb.literal(anomalyScoreMin.floatValue())
+                )
+        );
+
+        // handles aggregation
+        cq.multiselect(
+                createDateMonthSelection,
+                createDateYearSelection,
+                cb.count(rentalBoothIdSelection)
+        ).groupBy(createDateMonthSelection, createDateYearSelection);
+
+        return em.createQuery(cq);
+    }
 }

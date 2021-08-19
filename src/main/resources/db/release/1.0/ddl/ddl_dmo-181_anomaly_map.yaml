@@ -1,0 +1,40 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20210818-1005
+      author: mtilden
+      label: anomaly_rental_booth_fk, 20210818-1005
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          tableExists:
+            tableName: anomaly_map
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  name: order_id
+                  remarks: maps to order_id in rental_booth table
+                  type: INT
+              - column:
+                  name: score
+                  remarks: Anomaly Score
+                  type: FLOAT
+            remarks: Table for anomolys map
+            tableName: anomaly_map
+  - changeSet:
+      id: 20210818-1154
+      author: pcrilley
+      label: rental_booth_anomaly_score, 20210818-1154
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          columnExists:
+            tableName: rental_booth
+            columnName: anomaly_score
+      changes:
+        - addColumn:
+            tableName: rental_booth
+            columns:
+              - column:
+                  name: anomaly_score
+                  type: FLOAT

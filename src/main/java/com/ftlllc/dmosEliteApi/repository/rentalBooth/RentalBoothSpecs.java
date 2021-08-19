@@ -1,7 +1,6 @@
 package com.ftlllc.dmosEliteApi.repository.rentalBooth;
 
-import com.ftlllc.dmosEliteApi.domain.RentalBooth;
-import com.ftlllc.dmosEliteApi.domain.RentalBooth_;
+import com.ftlllc.dmosEliteApi.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;

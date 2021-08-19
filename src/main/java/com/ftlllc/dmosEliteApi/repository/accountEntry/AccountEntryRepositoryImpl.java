@@ -2,6 +2,7 @@ package com.ftlllc.dmosEliteApi.repository.accountEntry;
 
 import com.ftlllc.dmosEliteApi.domain.AccountEntry;
 import com.ftlllc.dmosEliteApi.domain.AccountEntry_;
+import com.ftlllc.dmosEliteApi.domain.RentalBooth_;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -26,14 +27,18 @@ public class AccountEntryRepositoryImpl implements AccountEntryCustomRepository 
                 CriteriaBuilder cb = em.getCriteriaBuilder();
                 CriteriaQuery<?> cq = cb.createQuery();
                 Root<AccountEntry> root = cq.from(AccountEntry.class);
-                Expression<?> createDateSelection = root.get(AccountEntry_.createDate);
+                Expression<?> createDateMonthSelection = cb.function(
+                        "month", Integer.class, root.get(AccountEntry_.createDate));
+                Expression<?> createDateYearSelection = cb.function(
+                        "year", Integer.class, root.get(AccountEntry_.createDate));
                 Expression<?> accountEntryIdSelection = root.get(AccountEntry_.accountEntryId);
 
                 // handles aggregation
                 cq.multiselect(
-                        createDateSelection,
+                        createDateMonthSelection,
+                        createDateYearSelection,
                         cb.count(accountEntryIdSelection).alias("dateCount")
-                ).groupBy(createDateSelection);
+                ).groupBy(createDateMonthSelection, createDateYearSelection);
 
                 // uses existing spec to generate where conditions
                 Specification<AccountEntry> predicates = Specification.where(AccountEntrySpecs.findAllByCreateDateBetween(startDate, endDate));

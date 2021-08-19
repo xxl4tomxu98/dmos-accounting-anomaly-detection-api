@@ -279,6 +279,26 @@
                     </excludes>
                 </configuration>
             </plugin>
+            <!-- <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>3.6.3</version>
+                <configuration>
+                    <changeLogFile>src/main/resources/db/changeLog.yaml</changeLogFile>
+                    <url>jdbc:postgresql://localhost:5432/dmos?currentSchema=dmos_local</url>
+                    <username>postgres</username>
+                    <password>squirrel1</password>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>liquibase-dbDoc</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>dbDoc</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin> -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>

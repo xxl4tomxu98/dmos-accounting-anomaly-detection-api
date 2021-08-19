@@ -42,7 +42,7 @@ public interface IRentalBoothResource {
 
 
     @GetMapping("/frequency")
-    Map<LocalDate, Long> getTotalRentalBoothCountsByDate(
+    Map<String, Long> getTotalRentalBoothCountsByDate(
                     @RequestParam(required = false)
                     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
                     LocalDate startDate,

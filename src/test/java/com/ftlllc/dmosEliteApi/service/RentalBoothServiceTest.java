@@ -2,12 +2,14 @@ package com.ftlllc.dmosEliteApi.service;
 
 import com.ftlllc.dmosEliteApi.DmosEliteApiApplicationTests;
 import com.ftlllc.dmosEliteApi.dto.RentalBoothDTO;
+import com.ftlllc.dmosEliteApi.dto.payload.AnomalyScoreMonthlyPayloadDTO;
 import com.ftlllc.dmosEliteApi.dto.payload.FeesPaidReportPayloadDTO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -63,9 +65,14 @@ public class RentalBoothServiceTest extends DmosEliteApiApplicationTests
         assertEquals(0, results.getNumberOfElements());
     }
 
+//    @Test
+//    public void getFeedPaidAmountsReport() {
+//        List<FeesPaidReportPayloadDTO> response = rentalBoothService.getFeedPaidAmountsReport();
+//        assertEquals(18, response.size());
+//    }
     @Test
-    public void getFeedPaidAmountsReport() {
-        List<FeesPaidReportPayloadDTO> response = rentalBoothService.getFeedPaidAmountsReport();
-        assertEquals(18, response.size());
+    public void getAnomalyScoreMonthlyReport() {
+        List<AnomalyScoreMonthlyPayloadDTO> response = rentalBoothService.getAnomalyScoreMonthlyReport(BigDecimal.valueOf(0.5));
+        assertEquals(0, response.size());
     }
 }

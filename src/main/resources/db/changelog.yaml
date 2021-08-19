@@ -10,3 +10,5 @@ databaseChangeLog:
     file: db/initial/date_indexes.yaml
 - include:
     file: db/initial/foreign_key.yaml
+- include:
+    file: db/release/1.0/ddl/ddl_dmo-181_anomaly_map.yaml

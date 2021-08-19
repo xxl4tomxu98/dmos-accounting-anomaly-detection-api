@@ -42,7 +42,7 @@ public class RentalBoothRepositoryTest extends DmosEliteApiApplicationTests
         Query q = rbcr.getFrequencyCountBetweenDates(null, null);
 
         List<Object[]> queryResult = q.getResultList();
-        assertEquals(4, queryResult.size());
+        assertEquals(3, queryResult.size());
     }
 
     @Test
@@ -50,7 +50,7 @@ public class RentalBoothRepositoryTest extends DmosEliteApiApplicationTests
         Query q = rbcr.getFrequencyCountBetweenDates(startDate, endDate);
 
         List<Object[]> queryResult = q.getResultList();
-        assertEquals(4, queryResult.size());
+        assertEquals(3, queryResult.size());
     }
 
 }

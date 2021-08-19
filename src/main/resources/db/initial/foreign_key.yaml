@@ -24,15 +24,15 @@ databaseChangeLog:
             onUpdate: RESTRICT
             referencedColumnNames: id
             referencedTableName: rental_booth
-  - changeSet:
-      id: 20210817-1431
-      author: pcrilley
-      label: account_entry_fk, 20210817-1431
-      preConditions:
-        onFail: MARK_RAN
-        sqlCheck:
-          expectedResult: 0
-          sql: "select count(*) from account_entry where rental_booth_id is not null"
-      changes:
-        - sql:
-            sql: update account_entry set rental_booth_id = (select rb.id from rental_booth rb where rb.order_id = account_entry.order_id)
+#  - changeSet:
+#      id: 20210817-1431
+#      author: pcrilley
+#      label: account_entry_fk, 20210817-1431
+#      preConditions:
+#        onFail: MARK_RAN
+#        sqlCheck:
+#          expectedResult: 0
+#          sql: "select count(*) from account_entry where rental_booth_id is not null"
+#      changes:
+#        - sql:
+#            sql: update account_entry set rental_booth_id = (select rb.id from rental_booth rb where rb.order_id = account_entry.order_id)

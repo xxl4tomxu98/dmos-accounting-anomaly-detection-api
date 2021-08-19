@@ -1,5 +1,7 @@
 package com.ftlllc.dmosEliteApi.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -33,7 +35,7 @@ public class AccountEntry
     // ^^ todo I don't like this... i want status to be an enum
 
     @Column(name = "order_id")
-    private BigInteger orderId;
+    private Integer orderId;
 
     @Column(name = "group_id")
     private BigInteger groupId;
@@ -41,7 +43,8 @@ public class AccountEntry
     @Column(name = "create_date")
     private LocalDate createDate;
 
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="rental_booth_id")
     private RentalBooth rentalBooth;
 }

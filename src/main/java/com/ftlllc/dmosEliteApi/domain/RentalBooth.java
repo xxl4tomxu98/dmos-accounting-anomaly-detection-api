@@ -1,5 +1,6 @@
 package com.ftlllc.dmosEliteApi.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,7 +18,7 @@ import java.util.List;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "rental_booth")
-@NamedQuery(name = "RentalBooth.findAll", query="select r from RentalBooth r")
+//@NamedQuery(name = "RentalBooth.findAll", query="select r from RentalBooth r")
 public class RentalBooth
 {
 
@@ -34,10 +35,10 @@ public class RentalBooth
     // ^^ todo do i want bigDecimal
 
     @Column(name = "paid")
-    private String paid;
+    private Boolean paid;
 
     @Column(name = "order_id")
-    private BigInteger orderId;
+    private Integer orderId;
 
     @Column(name = "group_id")
     private BigInteger groupId;
@@ -45,7 +46,16 @@ public class RentalBooth
     @Column(name = "create_date")
     private LocalDate createDate;
 
+    @Column(name = "anomaly_score")
+    private BigDecimal anomalyScore;
+
+    @JsonIgnore
     @OneToMany(mappedBy="rentalBooth")
     private List<AccountEntry> accountEntries;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "rentalBooth", cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY, optional = false)
+    private AnomalyMap anomalyMap;
 }
 

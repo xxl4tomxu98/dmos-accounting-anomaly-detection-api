@@ -42,7 +42,7 @@ public interface IAccountEntryResource
 
 
     @GetMapping("/frequency")
-    Map<LocalDate, Long> getTotalAccountEntriesByDate(
+    Map<String, Long> getTotalAccountEntriesByDate(
             @RequestParam(required = false)
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
             LocalDate startDate,

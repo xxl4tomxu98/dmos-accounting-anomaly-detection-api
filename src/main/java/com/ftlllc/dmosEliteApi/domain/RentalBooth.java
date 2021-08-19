@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -40,6 +42,12 @@ public class RentalBooth
     @Column(name = "order_id")
     private Integer orderId;
 
+    @JsonIgnore
+    @OneToOne
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name="order_id", referencedColumnName = "order_id", insertable=false, updatable=false)
+    private AnomalyMap anomalyMap;
+
     @Column(name = "group_id")
     private BigInteger groupId;
 
@@ -52,10 +60,5 @@ public class RentalBooth
     @JsonIgnore
     @OneToMany(mappedBy="rentalBooth")
     private List<AccountEntry> accountEntries;
-
-    @JsonIgnore
-    @OneToOne(mappedBy = "rentalBooth", cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY, optional = false)
-    private AnomalyMap anomalyMap;
 }
 

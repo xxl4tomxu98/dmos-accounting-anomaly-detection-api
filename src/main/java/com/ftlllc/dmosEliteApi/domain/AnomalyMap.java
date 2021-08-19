@@ -26,7 +26,7 @@ public class AnomalyMap {
     private Float score;
 
     @JsonIgnore
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="order_id")
+    @OneToOne(mappedBy = "anomalyMap", cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY, optional = false)
     private RentalBooth rentalBooth;
 }

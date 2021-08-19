@@ -45,16 +45,6 @@ public class AccountEntryService
     public Map<String, Long> getTotalAccountEntriesByDate(
             LocalDate startDate, LocalDate endDate
     ) {
-//        LocalDate start = startDate;
-//        LocalDate end = endDate;
-//        // Hardcode date range to compensate for UI
-//        if(start == null || end == null) {
-//            log.info("*** Assigning defaults ***");
-//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MMM-dd");
-//            formatter = formatter.withLocale( Locale.US );
-//            start = LocalDate.parse("2020-jan-01", formatter);
-//            end = LocalDate.parse("2021-jul-01", formatter);
-//        }
         Query q = accountEntryCustomRepository.getFrequencyCountBetweenDates(startDate, endDate);
 
         List<Object[]> queryResult = q.getResultList();

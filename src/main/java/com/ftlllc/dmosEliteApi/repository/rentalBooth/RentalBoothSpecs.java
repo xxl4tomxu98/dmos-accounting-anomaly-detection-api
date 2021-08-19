@@ -10,10 +10,8 @@ public class RentalBoothSpecs
 
     public static Specification<RentalBooth> findAllByCreateDateBetween(LocalDate startDate, LocalDate endDate) {
         return (root, criteriaQuery, criteriaBuilder) -> {
-            if(startDate == null && endDate == null)
-            {
-                //return criteriaBuilder.isTrue(criteriaBuilder.literal(true));
-                return criteriaBuilder.conjunction();
+            if(startDate == null && endDate == null) {
+                return criteriaBuilder.equal(criteriaBuilder.literal(true), criteriaBuilder.literal(true));
             }
             if (startDate == null) {
                 return criteriaBuilder.lessThanOrEqualTo(root.get(RentalBooth_.createDate), endDate);

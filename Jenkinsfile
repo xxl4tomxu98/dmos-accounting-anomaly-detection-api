@@ -74,8 +74,7 @@ pipeline {
            }    
         }
         stage('Test Deploy') {
-            //when { branch 'main' }
-            when { not { changeRequest() } }
+            when { branch 'main' }
             steps {
                 container('gitops') {
                     sh '''#!/bin/bash
@@ -91,16 +90,6 @@ pipeline {
                 }
            }    
         }
-        // stage('Functional Tests') {
-        //     when { branch 'main' }
-        //     steps {
-        //         container('auto-test') {
-        //             sh '''#!/bin/bash
-        //                 java -jar /app/app.jar /app/${DMOS_TEST_SUITE}
-        //             '''
-        //         }
-        //    }    
-        // }
         stage('Scan') {
             when { branch 'main' }
             steps {

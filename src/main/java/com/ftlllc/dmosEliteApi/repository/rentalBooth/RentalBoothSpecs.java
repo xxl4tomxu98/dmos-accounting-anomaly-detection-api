@@ -12,7 +12,8 @@ public class RentalBoothSpecs
         return (root, criteriaQuery, criteriaBuilder) -> {
             if(startDate == null && endDate == null)
             {
-                return criteriaBuilder.isTrue(criteriaBuilder.literal(true));
+                //return criteriaBuilder.isTrue(criteriaBuilder.literal(true));
+                return criteriaBuilder.conjunction();
             }
             if (startDate == null) {
                 return criteriaBuilder.lessThanOrEqualTo(root.get(RentalBooth_.createDate), endDate);

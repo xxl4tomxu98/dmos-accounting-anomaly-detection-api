@@ -2,8 +2,6 @@ package com.ftlllc.dmosEliteApi.service;
 
 import com.ftlllc.dmosEliteApi.DmosEliteApiApplicationTests;
 import com.ftlllc.dmosEliteApi.dto.RentalBoothDTO;
-import com.ftlllc.dmosEliteApi.dto.payload.AnomalyScoreMonthlyPayloadDTO;
-import com.ftlllc.dmosEliteApi.dto.payload.FeesPaidReportPayloadDTO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

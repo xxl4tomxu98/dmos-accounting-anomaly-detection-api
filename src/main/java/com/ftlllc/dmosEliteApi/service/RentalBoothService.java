@@ -2,7 +2,6 @@ package com.ftlllc.dmosEliteApi.service;
 
 import com.ftlllc.dmosEliteApi.domain.RentalBooth;
 import com.ftlllc.dmosEliteApi.dto.RentalBoothDTO;
-import com.ftlllc.dmosEliteApi.dto.payload.AnomalyScoreMonthlyPayloadDTO;
 import com.ftlllc.dmosEliteApi.dto.payload.FeesPaidReportPayloadDTO;
 import com.ftlllc.dmosEliteApi.repository.rentalBooth.RentalBoothCustomRepository;
 import com.ftlllc.dmosEliteApi.repository.rentalBooth.RentalBoothRepository;
@@ -19,10 +18,7 @@ import javax.persistence.Query;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -55,8 +51,8 @@ public class RentalBoothService
 
         List<Object[]> queryResult = q.getResultList();
 
-        // convert result into a list of hashmaps
-        Map<String, Long> resultMap = new HashMap<>();
+        // convert result into a list of LinkedHashMaps (preserves order)
+        Map<String, Long> resultMap = new LinkedHashMap<>();
         for (Object[] record : queryResult) {
             String date = record[0] + "-" + record[1];
             Long value = (Long) record[2];
@@ -84,7 +80,7 @@ public class RentalBoothService
         Query q = rentalBoothCustomRepository.getAnomalyScoreMonthly(anomalyScoreMin);
 
         List<Object[]> queryResult = q.getResultList();
-        Map<String, Long> resultMap = new HashMap<>();
+        Map<String, Long> resultMap = new LinkedHashMap<>();
 
         for (Object[] objects : queryResult) {
             String date = objects[0] + "-" + objects[1];

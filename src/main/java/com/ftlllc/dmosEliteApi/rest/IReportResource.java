@@ -1,7 +1,5 @@
 package com.ftlllc.dmosEliteApi.rest;
 
-import com.ftlllc.dmosEliteApi.dto.payload.AnomalyScoreMonthlyPayloadDTO;
-import com.ftlllc.dmosEliteApi.dto.payload.FeesPaidReportPayloadDTO;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;

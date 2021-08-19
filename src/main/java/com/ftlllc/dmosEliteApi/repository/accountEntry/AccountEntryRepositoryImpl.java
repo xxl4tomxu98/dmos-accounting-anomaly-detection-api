@@ -7,11 +7,10 @@ import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AccountEntryRepositoryImpl implements AccountEntryCustomRepository {
         @Autowired
@@ -31,6 +30,11 @@ public class AccountEntryRepositoryImpl implements AccountEntryCustomRepository 
                 Expression<?> createDateYearSelection = cb.function(
                         "year", Integer.class, root.get(AccountEntry_.createDate));
                 Expression<?> accountEntryIdSelection = root.get(AccountEntry_.accountEntryId);
+                List<Order> orderList = new ArrayList();
+
+                orderList.add(cb.asc(createDateYearSelection));
+                orderList.add(cb.asc(createDateMonthSelection));
+
 
                 // handles aggregation
                 cq.multiselect(
@@ -41,7 +45,8 @@ public class AccountEntryRepositoryImpl implements AccountEntryCustomRepository 
 
                 // uses existing spec to generate where conditions
                 Specification<AccountEntry> predicates = Specification.where(AccountEntrySpecs.findAllByCreateDateBetween(startDate, endDate));
-                cq.where(predicates.toPredicate(root, cq, cb));
+                cq.where(predicates.toPredicate(root, cq, cb))
+                        .orderBy(orderList);
 
                 return em.createQuery(cq);
         }

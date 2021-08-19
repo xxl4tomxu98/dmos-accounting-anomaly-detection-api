@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.Query;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -50,7 +49,7 @@ public class AccountEntryService
         List<Object[]> queryResult = q.getResultList();
 
         // convert result into a list of hashmaps
-        Map<String, Long> resultMap = new HashMap<>();
+        Map<String, Long> resultMap = new LinkedHashMap<>();
         for (Object[] record : queryResult) {
             String date = record[0] + "-" + record[1];
             Long value = (Long) record[2];

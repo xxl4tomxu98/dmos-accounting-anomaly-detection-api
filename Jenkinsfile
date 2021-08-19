@@ -54,10 +54,6 @@ pipeline {
         stage('Build') {
             steps {
                 container('maven') {
-                    // sh '''#!bash 
-                    //     source `pwd`/gitversion
-                    //      mvn -q versions:set -DnewVersion=${FULL_SEM_VER}
-                    // '''
                     sh 'mvn -q -B install'
                 }
             }   
@@ -98,6 +94,7 @@ pipeline {
                 }
            }    
         }
+        // Moved to deployment pipline
         // stage('Quality Gate') {
         //     when { branch 'main' }
         //     steps {   

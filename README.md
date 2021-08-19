@@ -1,4 +1,7 @@
-# dmos-elite-api
-[![Quality Gate Status](https://sonarqube.ftc-llc.net/api/project_badges/measure?project=com.ftcllc%3Admos-elite-api&metric=alert_status)](https://sonarqube.ftc-llc.net/dashboard?id=com.ftcllc%3Admos-elite-api)
+# Elite Account Mirco-service API
+* Built with Java and Spring Boot and linked with JIRA
+* Kubernetes enabled Jenkins pipline
+* Unit testing with JUnit
+* Scanned with SonarQube
+* API documented through Swagger/OpenAPI
 
-Mirco-service API for DMOS Challenge

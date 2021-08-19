@@ -80,17 +80,17 @@ public class RentalBoothService
         return result;
     }
 
-    public List<AnomalyScoreMonthlyPayloadDTO> getAnomalyScoreMonthlyReport(BigDecimal anomalyScoreMin) {
+    public Map<String, Long> getAnomalyScoreMonthlyReport(BigDecimal anomalyScoreMin) {
         Query q = rentalBoothCustomRepository.getAnomalyScoreMonthly(anomalyScoreMin);
 
         List<Object[]> queryResult = q.getResultList();
-        List<AnomalyScoreMonthlyPayloadDTO> result = new ArrayList<>();
+        Map<String, Long> resultMap = new HashMap<>();
 
         for (Object[] objects : queryResult) {
             String date = objects[0] + "-" + objects[1];
-            result.add(new AnomalyScoreMonthlyPayloadDTO(date, (Long) objects[2]));
+            resultMap.put(date, (Long) objects[2]);
         }
 
-        return result;
+        return resultMap;
     }
 }

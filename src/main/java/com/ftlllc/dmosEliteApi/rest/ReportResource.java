@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.Map;
 
 @RestController
 public class ReportResource implements IReportResource {
@@ -21,7 +21,7 @@ public class ReportResource implements IReportResource {
 //    }
 
     @Override
-    public List<AnomalyScoreMonthlyPayloadDTO> getAnomalyScoreByMonthReport(BigDecimal anomalyScore) {
+    public Map<String, Long> getAnomalyScoreByMonthReport(BigDecimal anomalyScore) {
         return rentalBoothService.getAnomalyScoreMonthlyReport(anomalyScore);
     }
 }

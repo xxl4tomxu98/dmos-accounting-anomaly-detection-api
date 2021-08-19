@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -72,7 +73,7 @@ public class RentalBoothServiceTest extends DmosEliteApiApplicationTests
 //    }
     @Test
     public void getAnomalyScoreMonthlyReport() {
-        List<AnomalyScoreMonthlyPayloadDTO> response = rentalBoothService.getAnomalyScoreMonthlyReport(BigDecimal.valueOf(0.5));
+        Map<String, Long> response = rentalBoothService.getAnomalyScoreMonthlyReport(BigDecimal.valueOf(0.5));
         assertEquals(0, response.size());
     }
 }

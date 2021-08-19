@@ -2,7 +2,6 @@ package com.ftlllc.dmosEliteApi.repository.accountEntry;
 
 import com.ftlllc.dmosEliteApi.domain.AccountEntry;
 import com.ftlllc.dmosEliteApi.domain.AccountEntry_;
-import com.ftlllc.dmosEliteApi.domain.RentalBooth_;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -37,7 +36,7 @@ public class AccountEntryRepositoryImpl implements AccountEntryCustomRepository 
                 cq.multiselect(
                         createDateMonthSelection,
                         createDateYearSelection,
-                        cb.count(accountEntryIdSelection).alias("dateCount")
+                        cb.count(accountEntryIdSelection)
                 ).groupBy(createDateMonthSelection, createDateYearSelection);
 
                 // uses existing spec to generate where conditions

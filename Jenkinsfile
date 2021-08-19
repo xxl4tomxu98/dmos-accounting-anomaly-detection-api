@@ -74,7 +74,8 @@ pipeline {
            }    
         }
         stage('Test Deploy') {
-            when { branch 'main' }
+            //when { branch 'main' }
+            when { not { changeRequest() } }
             steps {
                 container('gitops') {
                     sh '''#!/bin/bash
@@ -108,36 +109,36 @@ pipeline {
                 }
            }    
         }
-        stage('Quality Gate') {
-            when { branch 'main' }
-            steps {   
-                container('curl-jq') {
-                    // The set +x prevent commands being echoed revealing the access token
-                    sh '''
-                        set +x
-                        [ $(curl -s -u ${SONAR_LOGIN}: https://sonarqube.ftc-llc.net/api/qualitygates/project_status?projectKey=com.ftcllc:dmos-elite-api | jq -r ".projectStatus.status") == "OK" ] || exit 1
-                        set -x
-                    '''
-                }
-           }    
-        }
-        stage('Prod Deploy') {
-            when { branch 'main' }
-            steps {
-                container('gitops') {
-                    sh '''#!/bin/bash
-                        source `pwd`/gitversion
-                        cd /env-prod
-                        git clone https://github.com/FTCLLC/pipeline-env-prod.git .
-                        cd bases
-                        kustomize edit set image docker.ftc-llc.net/dmos/elite-api=docker.ftc-llc.net/dmos/elite-api:${FULL_SEM_VER}
-                        git add kustomization.yaml
-                        git commit -m "bump: update elite-api to ${FULL_SEM_VER}"
-                        git push
-                    '''
-                }
-           }    
-        }
+        // stage('Quality Gate') {
+        //     when { branch 'main' }
+        //     steps {   
+        //         container('curl-jq') {
+        //             // The set +x prevent commands being echoed revealing the access token
+        //             sh '''
+        //                 set +x
+        //                 [ $(curl -s -u ${SONAR_LOGIN}: https://sonarqube.ftc-llc.net/api/qualitygates/project_status?projectKey=com.ftcllc:dmos-elite-api | jq -r ".projectStatus.status") == "OK" ] || exit 1
+        //                 set -x
+        //             '''
+        //         }
+        //    }    
+        // }
+        // stage('Prod Deploy') {
+        //     when { branch 'main' }
+        //     steps {
+        //         container('gitops') {
+        //             sh '''#!/bin/bash
+        //                 source `pwd`/gitversion
+        //                 cd /env-prod
+        //                 git clone https://github.com/FTCLLC/pipeline-env-prod.git .
+        //                 cd bases
+        //                 kustomize edit set image docker.ftc-llc.net/dmos/elite-api=docker.ftc-llc.net/dmos/elite-api:${FULL_SEM_VER}
+        //                 git add kustomization.yaml
+        //                 git commit -m "bump: update elite-api to ${FULL_SEM_VER}"
+        //                 git push
+        //             '''
+        //         }
+        //    }    
+        // }
     }
     post {
        // only triggered when blue or green sign
